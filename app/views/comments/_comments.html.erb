@@ -1,17 +1,13 @@
-sdkjgbhjsbjkgdhkdsj
 <p>
   <strong>user:</strong>
   <%= comment.commenter %>
 </p>
-
 <p>
   <strong>Comment:</strong>
   <%= comment.body %>
 </p>
-jsdfhkjsad
 <p>
-  <%= link_to 'Destroy Comment', [comment.article, comment],
+  <%= link_to 'Destroy Comment',  article_comment_path(@article, comment),
               method: :delete,
               data: {confirm: 'Are you sure?'} %>
 </p>
-dflkgdlfjsjdfk
