@@ -1,4 +1,7 @@
 <h1>Edit comment</h1>
+<% flash.each do |key, value| %>
+  <%= value %>
+<% end %>
 <%= form_with(model: [@article, @comment], local: true) do |form| %>
   <p>
     <%= form.label :user %><br>

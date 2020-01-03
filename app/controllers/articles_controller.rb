@@ -1,5 +1,5 @@
 class ArticlesController < ApplicationController
-  http_basic_authenticate_with name: "dhh", password: "secret", except: [:index, :show]
+  http_basic_authenticate_with name: "kishore", password: "kishore", except: [:index, :show]
   before_action :load_article, only: [:show, :edit, :update, :destroy]
   def new
     @article = Article.new
@@ -14,6 +14,7 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
+      flash[:notice] = "Article successfully created"
       redirect_to @article
     else
       flash[:errors] = @article.errors.full_messages
@@ -22,6 +23,7 @@ class ArticlesController < ApplicationController
   end
   def update
     if @article.update(article_params)
+      flash[:notice] = "Article successfully updated"
       redirect_to @article
     else
       flash[:errors] = @article.errors.full_messages
