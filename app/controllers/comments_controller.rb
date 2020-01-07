@@ -2,9 +2,14 @@ class CommentsController < ApplicationController
   http_basic_authenticate_with name: "kishore", password: "kishore", only: :destroy
   before_action :load_comment, only: [:show, :edit, :update, :destroy, :create]
   def create
-    @comment = @article.comments.create(comment_params)
+     @comment = @article.comments.new(comment_params)
+     if @comment.save
       flash[:notice] = "Article successfully commented"
       redirect_to article_path(@article)
+     else
+       flash[:errors] = @comment.errors.full_messages
+       redirect_to article_path(@article)
+     end
     end
   def destroy
     @comment = @article.comments.find(params[:id])

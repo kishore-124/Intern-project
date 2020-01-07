@@ -1,9 +1,15 @@
-<% flash.each do |key, value| %>
-  <%= value %>
-<% end %>
 <p>
   <strong>Title:</strong>
-  <%= @article.title %>
+  <%a=@article.title.chars.to_a %>
+  <%c=0 %>
+  <%a.each do |i| %>
+    <%if (c<10) %>
+    <%=@article.title[i]%>
+      <%else %>
+    <%='.' %>
+      <%end %>
+    <% c+=1%>
+  <%end %>
 </p>
 <p>
   <strong>Text:</strong>
