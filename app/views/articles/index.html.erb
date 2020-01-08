@@ -1,24 +1,28 @@
 <h1>Listing Articles</h1>
 <%= link_to 'New article', new_article_path %>
 <%= link_to 'Welcome index', welcome_index_path %>
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Text</th>
-    <th></th>
-  </tr>
-  <% @articles.each do |article| %>
+<%= link_to 'New topic', new_topic_path %>
+<% if @articles.count == 0 %>
+  <h3>No Article</h3>
+<% else %>
+  <table>
     <tr>
-      <td><%= article.title %></td>
-      <td><%= article.text %></td>
-      <td><%= link_to 'Show', article_path(article) %></td>
-
-      <td><%= link_to 'Edit', edit_article_path(article) %></td>
-
-      <td><%= link_to 'Destroy', article_path(article),
-                      method: :delete,
-                      data: {confirm: 'Are you sure?'} %></td>
+      <th>Title</th>
+      <th>Text</th>
+      <th></th>
     </tr>
-  <% end %>
-</table>
+    <% @articles.each do |article| %>
+      <tr>
+        <td><%= article.title %></td>
+        <td><%= article.text %></td>
+        <td><%= link_to 'Show', article_path(article) %></td>
 
+        <td><%= link_to 'Edit', edit_article_path(article) %></td>
+
+        <td><%= link_to 'Destroy', article_path(article),
+                        method: :delete,
+                        data: {confirm: 'Are you sure?'} %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>

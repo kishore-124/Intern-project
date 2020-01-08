@@ -1,15 +1,6 @@
 <p>
   <strong>Title:</strong>
-  <%a=@article.title.chars.to_a %>
-  <%c=0 %>
-  <%a.each do |i| %>
-    <%if (c<10) %>
-    <%=@article.title[i]%>
-      <%else %>
-    <%='.' %>
-      <%end %>
-    <% c+=1%>
-  <%end %>
+  <%= @article.title %>
 </p>
 <p>
   <strong>Text:</strong>
@@ -18,30 +9,7 @@
 <%= link_to 'Edit', edit_article_path(@article) %> |
 <%= link_to 'Back', articles_path %>
 <h2>Comments</h2>
-<%if @article.comments.count ==0%>
-  <h3>No Comments</h3>
-<%else %>
-<% flash.each do |key, value| %>
-  <%= value %>
-<% end %>
-<% @article.comments.each do |comment| %>
-  <p>
-    <strong>User:</strong>
-    <%= comment.commenter %>
-  </p>
-  <p>
-    <strong>Comment:</strong>
-    <%= comment.body %>
-  </p>
-      <%= link_to 'Edit', edit_article_comment_path(@article, comment) %> |
-  <%= link_to 'Delete', article_comment_path(@article, comment),
-              method: :delete, data: {confirm: 'Are you sure?'}
-  %>
-<% end %>
-  <%end %>
+<%= render 'comments/comment' %>
 <h2>Add a comment:</h2>
 <%= render 'comments/form' %>
-<%= link_to 'Edit', edit_article_path(@article) %> |
-<%= link_to 'Back', articles_path %>
-
 

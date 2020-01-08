@@ -1,0 +1,16 @@
+<% if @article.comments.count == 0 %>
+  <h3>No Comments</h3>
+<% else %>
+  <% @article.comments.each do |comment| %>
+    <p>
+      <strong>User:</strong>
+      <%= comment.commenter %>
+    </p>
+    <p>
+      <strong>Comment:</strong>
+      <%= comment.body %>
+    </p>
+    <%= link_to 'Edit', edit_article_comment_path(@article, comment) %> |
+    <%= link_to 'Delete', article_comment_path(@article, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
+  <% end %>
+<% end %>

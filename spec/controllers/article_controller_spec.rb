@@ -12,11 +12,19 @@ RSpec.describe ArticlesController, type: :controller do
     get :show, params: {id: article.to_param}
     expect(response).to have_http_status(:success)
   end
+describe "GET #new" do
+  it "returns a success response" do
+    get :new
+    expect(response).to have_http_status(:success)
+  end
+end
   describe "POST #create" do
-    it "return a success status" do
-      article=Article.create(title: 'Anything', text: 'Anything')
-    post :create, params: {id: article.to_param}
-    expect(response).to have_http_status(:"302")
-    end
+    context "with valid params" do
+      it "creates a new Topic" do
+        expect {
+          post :create, params: {id: article.to_param}
+        }.to change(Article, :count).by(1)
+      end
     end
   end
+end
