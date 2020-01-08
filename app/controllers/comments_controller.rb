@@ -1,8 +1,8 @@
 class CommentsController < ApplicationController
-  before_action :load_comment, only: [:show, :edit, :update, :destroy,]
+  before_action :load_article, only: [:show, :edit, :update, :destroy, :create]
+  before_action :load_comment, only: [:show, :edit, :update, :destroy]
 
   def create
-    @article = Article.find(params[:article_id])
     @comment = @article.comments.new(comment_params)
     @comment.save
     redirect_to article_path(@article)
@@ -27,8 +27,11 @@ class CommentsController < ApplicationController
 
   private
 
-  def load_comment
+  def load_article
     @article = Article.find(params[:article_id])
+  end
+
+  def load_comment
     @comment = @article.comments.find(params[:id])
   end
 
