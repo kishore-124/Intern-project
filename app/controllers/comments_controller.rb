@@ -5,7 +5,7 @@ class CommentsController < ApplicationController
   def create
     @comment = @article.comments.new(comment_params)
     @comment.save
-    redirect_to article_path(@article)
+      redirect_to article_path(@article)
   end
 
   def destroy
@@ -20,7 +20,6 @@ class CommentsController < ApplicationController
   end
 
   def update
-
     @comment.update(comment_params)
     redirect_to @article
   end

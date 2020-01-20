@@ -6,6 +6,7 @@ class TopicsController < ApplicationController
   end
 
   def show
+    @posts=Post.new
   end
 
   def new
@@ -41,7 +42,9 @@ class TopicsController < ApplicationController
   end
 
   def destroy
-    @topic.destroy
+
+
+    p@topic.destroy
     respond_to do |format|
       format.html { redirect_to topics_url, notice: 'Topic was successfully destroyed.' }
       format.json { head :no_content }

@@ -19,20 +19,16 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
-      flash[:notice] = "Article successfully created"
       redirect_to @article
     else
-      flash[:errors] = @article.errors.full_messages
       render 'new'
     end
   end
 
   def update
     if @article.update(article_params)
-      flash[:notice] = "Article successfully updated"
       redirect_to @article
     else
-      flash[:errors] = @article.errors.full_messages
       render 'edit'
     end
   end

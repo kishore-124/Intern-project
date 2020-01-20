@@ -45,9 +45,14 @@ GEM
     addressable (2.7.0)
       public_suffix (>= 2.0.2, < 5.0)
     arel (9.0.0)
+    autoprefixer-rails (9.7.3)
+      execjs
     bindex (0.8.1)
     bootsnap (1.4.5)
       msgpack (~> 1.0)
+    bootstrap-sass (3.4.1)
+      autoprefixer-rails (>= 5.2.1)
+      sassc (>= 2.0.0)
     builder (3.2.4)
     byebug (11.0.1)
     capybara (3.29.0)
@@ -76,6 +81,7 @@ GEM
     ffi (1.11.3-x64-mingw32)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
+    hirb (0.7.3)
     i18n (1.7.0)
       concurrent-ruby (~> 1.0)
     jbuilder (2.9.1)
@@ -159,6 +165,8 @@ GEM
       sprockets (>= 2.8, < 4.0)
       sprockets-rails (>= 2.0, < 4.0)
       tilt (>= 1.1, < 3)
+    sassc (2.2.1-x64-mingw32)
+      ffi (~> 1.9)
     selenium-webdriver (3.142.6)
       childprocess (>= 0.5, < 4.0)
       rubyzip (>= 1.2.2)
@@ -202,11 +210,13 @@ PLATFORMS
 
 DEPENDENCIES
   bootsnap (>= 1.1.0)
+  bootstrap-sass
   byebug
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
   database_cleaner
   duktape
+  hirb
   jbuilder (~> 2.5)
   puma (~> 3.11)
   rails (~> 5.2.4, >= 5.2.4.1)

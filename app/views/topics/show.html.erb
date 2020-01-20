@@ -5,3 +5,7 @@
 </p>
 <%= link_to 'Edit', edit_topic_path(@topic) %> |
 <%= link_to 'Back', topics_path %>
+<h2>Add a posts:</h2>
+<%= render 'posts/form' %>
+<%= link_to 'Post', topic_posts_path(@topic)%>
+

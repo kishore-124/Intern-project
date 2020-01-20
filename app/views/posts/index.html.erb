@@ -1,0 +1,26 @@
+<h1>Listing Posts</h1>
+<% if @posts.count == 0 %>
+  <h3>No posts</h3>
+<% else %>
+  <table>
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th></th>
+    </tr>
+    <% @posts.each do |post| %>
+      <tr>
+        <td><%= post.name %></td>
+        <td><%= post.description %></td>
+        <td><%= link_to 'Show', topic_post_path(@topic,post) %></td>
+
+        <td><%= link_to 'Edit', edit_topic_post_path(@topic, post) %></td>
+
+        <td><%= link_to 'Destroy', topic_post_path(@topic, post),
+                        method: :delete,
+                        data: {confirm: 'Are you sure?'} %></td>
+      </tr>
+    <% end %>
+  </table>
+<% end %>
+<%= link_to 'Back', topic_path(@topic) %>

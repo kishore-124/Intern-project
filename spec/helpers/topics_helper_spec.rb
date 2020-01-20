@@ -1,15 +1,9 @@
 require 'rails_helper'
 
-# Specs in this file have access to a helper object that includes
-# the TopicsHelper. For example:
-#
-# describe TopicsHelper do
-#   describe "string concat" do
-#     it "concats two strings with spaces" do
-#       expect(helper.concat_strings("this","that")).to eq("this that")
-#     end
-#   end
-# end
-RSpec.describe TopicsHelper, type: :helper do
-  pending "add some examples to (or delete) #{__FILE__}"
+module PostHelper
+  def http_login
+    user = 'kishore'
+    pw = 'kishore'
+    request.env['HTTP_AUTHORIZATION'] = ActionController::HttpAuthentication::Basic.encode_credentials(user,pw)
+  end  
 end
