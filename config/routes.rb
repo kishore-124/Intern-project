@@ -1,12 +1,11 @@
 Rails.application.routes.draw do
-
-  #root 'topics#index'
+  resources :tags
   resources :topics do
-    resources :posts
+    resources :posts do
+      resources :ratings
+      resources :comments
+    end
   end
-
-  get 'welcome/index'
-  resources :articles do
-    resources :comments
-  end
+  resources :posts
+  root 'topics#index'
 end

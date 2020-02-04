@@ -1,6 +1,6 @@
-<%= form_with(model: topic, local: true) do |form| %>
+<%= bootstrap_form_with(model: topic, local: true) do |form| %>
   <% if topic.errors.any? %>
-    <div id="alert alert-danger error_explanation">
+    <div id="alert alert-danger error_explanation"  class="alert alert-danger" role="alert">
       <h2><%= pluralize(topic.errors.count, "error") %> prohibited this topic from being saved:</h2>
       <ul>
       <% topic.errors.full_messages.each do |message| %>
@@ -9,13 +9,8 @@
       </ul>
     </div>
   <% end %>
-<div class="form-group">
-  <p>
-    <%= form.label :title %>
-  </p>
-  <p>
-    <%= form.text_field :title, class: "form-control" %>
-  </p>
-</div>
-    <%= form.submit class:"btn btn-primary"%>
+
+   <%= form.text_field :title, placeholder:"Please enter a valid Title" %>
+    <%= form.submit %>
+
 <% end %>

@@ -1,0 +1,10 @@
+<%= bootstrap_form_with(model: [@topic, @posts, @rating], local: true) do |form| %>
+  <%= form.radio_button :ratings, "1 star" %>
+  <%= form.radio_button :ratings, "2 star" %>
+  <%= form.radio_button :ratings, "3 star" %>
+  <%= form.radio_button :ratings, "4 star" %>
+  <%= form.radio_button :ratings, "5 star" %>
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

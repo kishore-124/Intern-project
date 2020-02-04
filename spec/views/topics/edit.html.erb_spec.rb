@@ -15,4 +15,5 @@ RSpec.describe "topics/edit", type: :view do
       assert_select "input[name=?]", "topic[title]"
     end
   end
+
 end

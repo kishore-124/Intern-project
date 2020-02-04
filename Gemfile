@@ -9,7 +9,6 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
 gem 'sqlite3'
 # Use Puma as the app server
 gem 'puma', '~> 3.11'
-gem 'selenium-webdriver'
 gem 'hirb'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
@@ -35,7 +34,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.1.0', require: false
+gem 'bootstrap', '>= 1.1.0', require: false
 
 group :development, :test do
   gem 'rspec-rails'
@@ -46,6 +45,7 @@ end
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
   gem 'web-console', '>= 3.3.0'
+  gem 'bullet'
 end
 
 group :test do
@@ -55,8 +55,19 @@ group :test do
   gem 'webdrivers'
   gem 'capybara', '>= 2.15'
   gem 'database_cleaner'
+  gem 'rails-controller-testing'
+  gem 'shoulda-matchers', require: true
+  gem 'shoulda'
 end
 gem 'bootstrap-sass'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+
+gem "cocoon"
+gem 'strong_migrations'
+gem "will_paginate"
+gem 'simple_form'
+gem 'pagy'
+gem "bootstrap_form"
+gem "bootstrap_flash_messages"
 

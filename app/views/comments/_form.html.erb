@@ -1,11 +1,19 @@
-<%= form_with(model: [@article, @comment], local: true) do |form| %>
+<%= bootstrap_form_with(model: [@topic, @posts, @comment], local: true) do |form| %>
+  <% if @comment.errors.any? %>
+    <div id="alert alert-danger error_explanation"  class="alert alert-danger" role="alert">
+      <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>
+      <ul>
+        <% @comment.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <%end %>
   <p>
-    <%= form.label :user %><br>
-    <%= form.text_field :commenter %>
+    <%= form.text_field :user %>
   </p>
   <p>
-    <%= form.label :comment %><br>
-    <%= form.text_area :body %>
+    <%= form.text_area :comment %>
   </p>
   <p>
     <%= form.submit %>

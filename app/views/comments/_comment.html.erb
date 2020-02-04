@@ -1,16 +1,23 @@
-<% if @article.comments.count == 0 %>
+<h1>Comments</h1>
+<% if @posts.comments.count == 0 %>
   <h3>No Comments</h3>
 <% else %>
-  <% @article.comments.each do |comment| %>
-    <p>
-      <strong>User:</strong>
-      <%= comment.commenter %>
-    </p>
-    <p>
-      <strong>Comment:</strong>
-      <%= comment.body %>
-    </p>
-    <%= link_to 'Edit', edit_article_comment_path(@article, comment) %> |
-    <%= link_to 'Delete', article_comment_path(@article, comment), method: :delete, data: {confirm: 'Are you sure?'} %>
-  <% end %>
+  <table class="table table-striped table-dark">
+    <tr>
+      <th>Name</th>
+      <th>Description</th>
+      <th>Edit</th>
+      <th>Delete</th>
+    </tr>
+    <% @posts.comments.each do |comment| %>
+      <tr>
+        <td><%= link_to comment.user  , topic_post_comment_path(@topic, @posts, @posts.comments.ids) %></td>
+        <td><%= link_to comment.comment  , topic_post_comment_path(@topic, @posts, @posts.comments.ids) %></td>
+        <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic, @posts, @posts.comments.ids),class:"btn btn-primary" %></td>
+        <td><%= link_to 'Destroy', topic_post_comment_path(@topic,@posts, @posts.comments.ids),
+                        method: :delete,
+                        data: {confirm: 'Are you sure?'}, class:"btn btn-primary" %></td>
+      </tr>
+    <% end %>
+  </table>
 <% end %>

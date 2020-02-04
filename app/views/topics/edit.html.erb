@@ -1,4 +1,5 @@
 <h1>Editing Topic</h1>
-<%= render 'form', topic: @topic %>
-<%= link_to 'Show', @topic %> |
-<%= link_to 'Back', topics_path %>
+<p><%= render 'form', topic: @topic %></p>
+<p><%= link_to 'Show', @topic, class:"btn btn-secondary" %> |
+  <%= link_to 'Back', topics_path ,class:"btn btn-link"%></p>
+

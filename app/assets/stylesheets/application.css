@@ -12,8 +12,6 @@
  *
  *= require_tree .
  *= require_self
- */
-h1
-{
-color :green
-}
+ *= require rails_bootstrap_forms
+*/
+

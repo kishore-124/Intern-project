@@ -1,0 +1,9 @@
+<p>
+  <strong>User:</strong>
+  <%= @comment.user %>
+</p>
+<p>
+  <strong>Comment:</strong>
+  <%= @comment.comment %>
+</p>
+<%= link_to 'Back', topic_post_path(@topic,@posts),class:"btn btn-primary" %>
