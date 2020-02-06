@@ -11,8 +11,8 @@
   </head>
   <body class="container">
   <nav class="navbar navbar-expand-lg navbar-light bg-dark">
-    <a class="nav-brand" href="/topics"><strong style="color:red;">APP</strong> <span class="sr-only">(current)</span></a>
-      <ul class="navbar-nav">
+    <a class="nav-brand" href="/"><strong style="color:red;">APP</strong> <span class="sr-only">(current)</span></a>
+      <ul class="navbar-nav mr-auto">
         <li class="nav-item">
           <a class="nav-link" href="/topics"><strong style="color:white;">Topic</strong></a>
         </li>
@@ -32,7 +32,17 @@
           </div>
         </li>
       </ul>
-
+    <ol class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="/users/sign_in"><strong style="color:white;">Sign_In</strong></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/users/sign_up"><strong style="color:white;">Sign_Up</strong></a>
+      </li>
+      <li class="nav-item">
+        <%=link_to 'logout', destroy_user_session_path, method: :delete %>
+      </li>
+    </ol>
   </nav>
     <% if flash.notice.present? %>
       <div class="alert alert-success" role="alert">

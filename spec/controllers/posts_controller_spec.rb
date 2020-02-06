@@ -2,7 +2,9 @@ require 'rails_helper'
 RSpec.describe PostsController, type: :controller do
   describe 'GET #index' do
     before do
-      get :index
+      user = User.create(email: 'kishore@mallow-tech.com',password:'9047446861')
+      sign_in(user)
+      get :index, params: {user_id: user.id}
     end
     it 'returns a success response' do
       expect(response).to have_http_status(:success)
@@ -12,17 +14,21 @@ RSpec.describe PostsController, type: :controller do
       expect(response).to render_template('index')
     end
     it 'assigns @posts' do
+      user = User.create(email: 'kishore@mallow-tech1.com',password:'9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'anything')
-      post = topic.posts.create(name:'post', description:'kk')
+      post = topic.posts.create(name: 'post', description: 'kk',user_id: user.id)
       expect(assigns(:posts)).to eq([post])
     end
     it 'checks the pagination limit value' do
       expect(assigns(:posts).limit_value).to eq(10)
     end
     it 'Checks the Page offset correctly' do
+      user = User.create(email: 'kishore@mallow-tech1.com',password:'9047446861')
+      sign_in(user)
       1.upto(34) do
         topic=Topic.create(title: 'Anything')
-        post = topic.posts.create(name:'post', description:'kk')
+        post = topic.posts.create(name:'post', description:'kk',user_id: user.id)
       end
       get :index, params: {page: 4}
       expect(assigns[:posts].map(&:id).count).to eq(4)
@@ -31,9 +37,11 @@ RSpec.describe PostsController, type: :controller do
   describe 'GET #show' do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
-      post = topic.posts.create(name: 'post' , description: 'kk')
-      get :show, params: { id: post.id, topic_id: topic.id }
+      post = topic.posts.create!(name: 'post' , description: 'kk',user_id: user.id)
+      get :show, params: { id: post.id, topic_id: topic.id}
     end
     it 'returns a content type' do
       expect(response.content_type).to eq 'text/html'
@@ -43,8 +51,10 @@ RSpec.describe PostsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
     it 'returns the value of the instance' do
+      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
       topic = Topic.create(title: 'anything')
-      post = topic.posts.create(name:'post', description:'kk')
+      sign_in(user)
+      post = topic.posts.create(name: 'post' , description: 'kk',user_id: user.id)
       get :show, params: { id: post.id, topic_id: topic.id }
       expect(assigns(:posts)).to eq(post)
     end
@@ -56,8 +66,10 @@ RSpec.describe PostsController, type: :controller do
   describe 'GET #edit' do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
-      post = topic.posts.create(name: 'post' , description: 'kk')
+      post = topic.posts.create(name: 'post' , description: 'kk',user_id: user.id)
       get :edit, params: { id: post.id, topic_id: topic.id }
     end
     it 'returns a content type of the page' do
@@ -78,7 +90,9 @@ RSpec.describe PostsController, type: :controller do
     context 'positive cases' do
       before do
         topic = Topic.create(title: 'Anything')
-        post :create, params: { post: { name: 'post', description: 'kk' }, topic_id: topic.id }
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
+        post :create, params: { post: { name: 'post', description: 'kk' }, topic_id: topic.id   }
       end
       it 'returns a content type' do
         expect(response.content_type).to eq 'text/html'
@@ -87,9 +101,7 @@ RSpec.describe PostsController, type: :controller do
         expect(response.status).to eq(302)
       end
       it 'returns a redirect path' do
-        topic = Topic.create(title: 'Anything')
-        post :create, params: { post: { name: 'post', description: 'kk' }, topic_id: topic.id }
-        expect(response).to redirect_to(topic_path(id: topic.id ))
+        expect(response).to redirect_to("/topics/#{assigns(:topic).id}")
       end
       it 'Notifies a flash save' do
         expect(flash[:notice]).to eq('Posts was successfully created')
@@ -98,7 +110,9 @@ RSpec.describe PostsController, type: :controller do
     context 'negative cases' do
       context 'not rendered views' do
         before do
+          user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
           topic = Topic.create(title: 'Anything')
+          sign_in(user)
           post :create, params: { post: { name: '', description: '' }, topic_id: topic.id }
         end
         it 'returns a error message' do
@@ -111,7 +125,9 @@ RSpec.describe PostsController, type: :controller do
       context 'rendered views' do
         render_views
         before do
+          user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
           topic = Topic.create(title: 'Anything')
+          sign_in(user)
           post :create, params: { post: { name: '', description: '' }, topic_id: topic.id }
         end
         it 'returns a error message' do
@@ -131,9 +147,11 @@ RSpec.describe PostsController, type: :controller do
     context 'PATCH #update' do
       context 'positive  cases' do
         before do
+          user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          sign_in(user)
           topic = Topic.create(title: 'Anything')
-          post = topic.posts.create(name: 'post' , description: 'kk')
-          patch :update, params: { id:post.id,tag_ids: 1, topic_id: topic.id ,post:{name: 'Post' , description: 'kkk'}}
+          post = topic.posts.create(name: 'post' , description: 'kk',user_id: user.id)
+          patch :update, params: { id:post.id, topic_id: topic.id , post:{name: 'Post' , description: 'kkk'}}
         end
         it 'returns a content type' do
           expect(response.content_type).to eq 'text/html'
@@ -145,10 +163,7 @@ RSpec.describe PostsController, type: :controller do
           expect(flash[:notice]).to eq('Posts was successfully updated')
         end
         it 'returns a redirect path' do
-          topic = Topic.create(title: 'Anything')
-          post = topic.posts.create(name: 'post' , description: 'kk')
-          patch :update, params: { id:post.id,tag_ids: 1, topic_id: topic.id ,post:{name: 'Post' , description: 'kkk'}}
-          expect(response).to redirect_to(topic_posts_path(topic_id: topic.id))
+          expect(response).to redirect_to("/topics/#{assigns(:topic).id}/posts")
         end
         it 'returns a redirect status' do
           expect(response.status).to eq(302)
@@ -159,8 +174,10 @@ RSpec.describe PostsController, type: :controller do
       context 'Not rendered views' do
       before do
         topic = Topic.create(title: 'anything')
-        post = topic.posts.create(name: 'post' , description: 'kk')
-        patch :update, params: { id:post.id,tag_ids: 1, topic_id: topic.id ,post:{name: '' , description: ''}}
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
+        post = topic.posts.create(name: 'post' , description: 'kk',user_id: user.id)
+        patch :update, params: { id:post.id, tag_ids: 1, topic_id: topic.id , post:{name: '' , description: ''}}
       end
       it 'returns a error message' do
         expect(assigns(:posts).errors.messages).to eq(name: ["can't be blank"])
@@ -173,8 +190,10 @@ RSpec.describe PostsController, type: :controller do
         render_views
         before do
           topic = Topic.create(title: 'anything')
-          post = topic.posts.create(name: 'post' , description: 'kk')
-          patch :update, params: { id:post.id,tag_ids: 1, topic_id: topic.id ,post:{name: '' , description: ''}}
+          user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          sign_in(user)
+          post = topic.posts.create(name: 'post' , description: 'kk',user_id: user.id)
+          patch :update, params: { id:post.id, tag_ids: 1, topic_id: topic.id , post:{name: '' , description: ''}}
         end
         it 'returns a error message' do
           expect(response.body).to match('1 error prohibited this posts from being saved:')
@@ -189,32 +208,36 @@ RSpec.describe PostsController, type: :controller do
     end
     context 'PUT #update' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         topic = Topic.create(title: 'Anything')
-        post = topic.posts.create(name: 'post' , description: 'kk')
-        put :update, params: { id:post.id,tag_ids: 1, topic_id: topic.id ,post:{name: 'Posts' , description: 'kkk'}}
+        post = topic.posts.create(name: 'post' , description: 'kk',user_id: user.id)
+        put :update, params: { id:post.id, tag_ids: 1, topic_id: topic.id , post:{name: 'Posts' , description: 'kkk'}}
       end
       it 'returns a redirect status' do
         expect(response.status).to eq (302)
       end
       it 'returns a redirect path' do
-        topic = Topic.create(title: 'Anything')
-        post = topic.posts.create(name: 'post' , description: 'kk')
-        put :update, params: { id:post.id,tag_ids: 1, topic_id: topic.id ,post:{name: 'Posts' , description: 'kkk'}}
-        expect(response).to redirect_to(topic_posts_path(topic_id: topic.id))
+        expect(response).to redirect_to("/topics/#{assigns(:topic).id}/posts")
       end
     end
   end
   describe 'DELETE #destroy' do
     it 'destroys the requested posts' do
       topic = Topic.create(title: 'Anything')
-      post = topic.posts.create(name:'post', description:'kk')
-      expect {
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
+      post = topic.posts.create(name:'post', description:'kk',user_id: user.id)
+      expect do
         delete :destroy, params: {id: post.id, topic_id: topic.id}
-      }.to change{Post.count}.by(-1)
+      end.to change{Post.count}.by(-1)
     end
     it 'notifies the flash message' do
       topic = Topic.create(title: 'anything')
-      post = topic.posts.create(name:'post', description:'kk')
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
+      post = topic.posts.create(name:'post', description:'kk',user_id: user.id)
+      
       delete :destroy, params: { id: post.id, topic_id: topic.id }
       expect(flash[:notice]).to eq('Posts was successfully destroyed.')
     end
@@ -223,11 +246,15 @@ RSpec.describe PostsController, type: :controller do
     end
     it 'returns a redirect path' do
       topic = Topic.create(title: 'Anything')
-      post = topic.posts.create(name:'post', description:'kk')
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
+      post = topic.posts.create(name:'post', description:'kk',user_id: user.id)
       delete :destroy, params: { id: post.id, topic_id: topic.id }
       expect(response).to redirect_to(topic_posts_path)
     end
     it 'returns a ActiveRecord::RecordNotFound and redirect' do
+      user = User.create(email: 'kishore@mallow-tech.com',password:'9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
       delete :destroy, params: { id: -1, topic_id: topic.id }
       expect(flash[:notice]).to eq('Record not found.')

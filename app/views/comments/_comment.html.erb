@@ -11,10 +11,10 @@
     </tr>
     <% @posts.comments.each do |comment| %>
       <tr>
-        <td><%= link_to comment.user  , topic_post_comment_path(@topic, @posts, @posts.comments.ids) %></td>
-        <td><%= link_to comment.comment  , topic_post_comment_path(@topic, @posts, @posts.comments.ids) %></td>
-        <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic, @posts, @posts.comments.ids),class:"btn btn-primary" %></td>
-        <td><%= link_to 'Destroy', topic_post_comment_path(@topic,@posts, @posts.comments.ids),
+        <td><%= link_to comment.user  , topic_post_comment_path(@topic, @posts, comment.id) %></td>
+        <td><%= link_to comment.comment  , topic_post_comment_path(@topic, @posts, comment.id) %></td>
+        <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic, @posts, comment.id),class:"btn btn-primary" %></td>
+        <td><%= link_to 'Destroy', topic_post_comment_path(@topic,@posts, comment.id),
                         method: :delete,
                         data: {confirm: 'Are you sure?'}, class:"btn btn-primary" %></td>
       </tr>

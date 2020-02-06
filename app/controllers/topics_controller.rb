@@ -4,14 +4,10 @@ class TopicsController < ApplicationController
   def index
     @pagy, @topics = pagy(Topic.all, items: 10)
   end
+
   def show
-    if @posts.nil?
-      @posts=Post.new
-    else
-      render 'show'
-      end
-    @tags= Tag.all
-    @tag = Tag.new
+    @posts = Post.new
+    @tags = Tag.all
   end
 
   def new

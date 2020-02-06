@@ -2,6 +2,8 @@ require 'rails_helper'
 RSpec.describe TagsController, type: :controller do
   describe 'GET #index' do
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       get :index
     end
     it 'returns a success response' do
@@ -29,6 +31,8 @@ RSpec.describe TagsController, type: :controller do
   describe 'GET #show' do
       render_views
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         tag = Tag.create(name: 'Anything')
         get :show, params: {id: tag.to_param}
       end
@@ -51,6 +55,8 @@ RSpec.describe TagsController, type: :controller do
   describe 'GET #new' do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       get :new
     end
     it 'returns a content type' do
@@ -68,6 +74,8 @@ RSpec.describe TagsController, type: :controller do
   describe 'GET #edit' do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       tag = Tag.create(name: 'Anything')
       get :edit, params: {id: tag.to_param}
     end
@@ -85,6 +93,8 @@ RSpec.describe TagsController, type: :controller do
   describe 'POST #create' do
     context 'positive cases' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         post :create, params: {tag: {name: 'Anything'}}
       end
       it 'returns a content type' do
@@ -109,6 +119,8 @@ RSpec.describe TagsController, type: :controller do
     context 'negative cases' do
       render_views
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         post :create, params: {tag: {name: ''}}
       end
       it 'returns a error message' do
@@ -132,6 +144,8 @@ RSpec.describe TagsController, type: :controller do
     context 'PATCH #update' do
       context 'positive  cases' do
         before do
+          user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          sign_in(user)
           tag = Tag.create(name: 'Anythings')
           patch :update, params: {id: tag.to_param, tag: {name: 'value'}}
         end
@@ -152,6 +166,8 @@ RSpec.describe TagsController, type: :controller do
     context 'negative cases' do
       render_views
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         tag = Tag.create(name: 'Anything')
         patch :update, params: {id: tag.to_param, tag: {name: ''}}
       end
@@ -173,6 +189,8 @@ RSpec.describe TagsController, type: :controller do
     end
     context 'PUT #update' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         tag = Tag.create(name: 'Anything')
         put :update, params: {id: tag.to_param, tag: {name: 'Anything'}}
       end
@@ -189,12 +207,16 @@ RSpec.describe TagsController, type: :controller do
   end
   describe 'DELETE #destroy' do
     it 'destroys the requested topic' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       tag = Tag.create(name: 'Anything')
       expect {
         delete :destroy, params: {id: tag.to_param}
       }.to change { Tag.count }.by(-1)
     end
     it 'notifies the flash message' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       tag = Tag.create(name: 'Anything')
       delete :destroy, params: {id: tag.to_param}
       expect(flash[:notice]).to eq('Tag was successfully destroyed.')
@@ -203,11 +225,15 @@ RSpec.describe TagsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
     it 'returns a redirect path' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       tag = Tag.create(name: 'Anything')
       delete :destroy, params: {id: tag.to_param}
       expect(response).to redirect_to(tags_path)
     end
     it 'returns a ActiveRecord::RecordNotFound and redirect path' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       delete :destroy , params: {id: -1}
       expect(flash[:notice]).to eq('Record not found.')
       expect(response).to redirect_to(tags_path)

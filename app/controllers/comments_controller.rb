@@ -5,11 +5,12 @@ class CommentsController < ApplicationController
 
   def create
     @ratings = @posts.ratings.group(:ratings).count
-    @tags=Tag.all
+    @rating = Rating.new
+    @tags = Tag.all
     @comment = @posts.comments.new(comment_params)
     if @comment.save
-    flash[:notice]='comment was successfully created'
-    redirect_to   topic_post_path(@topic, @posts)
+      flash[:notice] = 'comment was successfully created'
+      redirect_to topic_post_path(@topic, @posts)
     else
       render 'posts/show'
       end
@@ -17,18 +18,17 @@ class CommentsController < ApplicationController
 
   def destroy
     respond_to do |format|
-    @topic = Topic.find(params[:topic_id])
-    @posts = Post.find(params[:post_id])
-    @comment = @posts.comments.find(params[:id])
-    @comment.destroy
-    format.html{ redirect_to  topic_post_path(@topic, @posts),notice:'Comment was successfully destroyed'}
+      @topic = Topic.find(params[:topic_id])
+      @posts = Post.find(params[:post_id])
+      @comment = @posts.comments.find(params[:id])
+      @comment.destroy
+      format.html{ redirect_to topic_post_path(@topic, @posts), notice: 'Comment was successfully destroyed'}
     rescue ActiveRecord::RecordNotFound
       format.html{ redirect_to  topic_post_path(@topic, @posts), notice: 'Record not found.'}
     end
   end
 
-  def edit
-  end
+  def edit; end
 
   def show
     @tags = Tag.new
@@ -36,9 +36,9 @@ class CommentsController < ApplicationController
 
   def update
     @ratings = @posts.ratings.group(:ratings).count
-    @tags=Tag.all
+    @tags = Tag.all
     if @comment.update(comment_params)
-      flash[:notice]='comment was successfully updated'
+      flash[:notice] = 'comment was successfully updated'
       redirect_to topic_post_path(@topic, @posts)
     else
       render 'comments/edit'
@@ -49,15 +49,17 @@ class CommentsController < ApplicationController
   private
 
   def load_topic
-     @topic = Topic.find(params[:topic_id])
+    @topic = Topic.find(params[:topic_id])
   end
 
   def load_comment
-     @comment = @posts.comments.find(params[:id])
+    @comment = @posts.comments.find(params[:id])
   end
+
   def load_post
-     @posts = Post.find(params[:post_id])
+    @posts = Post.find(params[:post_id])
   end
+
   def comment_params
     params.require(:comment).permit(:user, :comment)
   end

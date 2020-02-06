@@ -18,9 +18,11 @@
   </div>
   <div class="col-2">
     <p><h3>Ratings</h3></p>
-    <%@ratings.each do |key,value| %>
-      <p><%=key %>: <%=value %></p>
-      <% end %>
+    <p><%= '1 star' %> : <%= @ratings['1 star'].equal?(nil)? 0:@ratings['1 star'] %></p>
+    <p><%= '2 star' %> : <%= @ratings['2 star'].equal?(nil)? 0:@ratings['2 star'] %></p>
+    <p><%= '3 star' %> : <%= @ratings['3 star'].equal?(nil)? 0:@ratings['3 star'] %></p>
+    <p><%= '4 star' %> : <%= @ratings['4 star'].equal?(nil)? 0:@ratings['4 star'] %></p>
+    <p><%= '5 star' %> : <%= @ratings['5 star'].equal?(nil)? 0:@ratings['5 star'] %></p>
   </div>
   <div class="col-2">
     <p>
@@ -28,7 +30,7 @@
     </p>
 <p>
   <% @avg = @posts.ratings.average(:ratings).round(1) unless @posts.ratings.count<1 %>
-  <b><%= "#{@avg} Out of 5" unless @posts.ratings.count<1 %><br></b>
+  <%= "#{@avg} Out of 5" unless @posts.ratings.count<1 %><br>
 </div>
   <div class="col-2">
     <p><h3>Comments count</h3></p>

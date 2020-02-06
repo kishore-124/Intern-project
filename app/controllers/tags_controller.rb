@@ -4,7 +4,7 @@ class TagsController < ApplicationController
   # GET /tags
   # GET /tags.json
   def index
-    @pagy,  @tags = pagy(Tag.all, items: 10)
+    @pagy, @tags = pagy(Tag.all, items: 10)
   end
 
   # GET /tags/1
@@ -13,7 +13,7 @@ class TagsController < ApplicationController
 
   # GET /tags/new
   def new
-    @tag=Tag.new
+    @tag = Tag.new
   end
 
   # GET /tags/1/edit
@@ -58,7 +58,7 @@ class TagsController < ApplicationController
     format.html { redirect_to tags_url, notice: 'Tag was successfully destroyed.' }
     format.json { head :no_content }
     rescue ActiveRecord::RecordNotFound
-      format.html{ redirect_to tags_url,  notice: 'Record not found.' }
+      format.html{ redirect_to tags_url, notice: 'Record not found.' }
     end
   end
 

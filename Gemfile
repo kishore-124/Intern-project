@@ -71,3 +71,5 @@ gem 'pagy'
 gem "bootstrap_form"
 gem "bootstrap_flash_messages"
 
+gem 'devise'
+

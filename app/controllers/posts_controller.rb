@@ -7,7 +7,7 @@ class PostsController < ApplicationController
       @topic = Topic.find(params[:topic_id])
       @pagy, @posts = pagy(@topic.posts.all, items: 10)
     else
-      @pagy, @posts = pagy(Post.eager_load(:topic).all, items: 10)
+      @pagy, @posts = pagy(Post.preload(:topic).all, items: 10)
     end
   end
 
@@ -25,11 +25,12 @@ class PostsController < ApplicationController
   def create
     @tags = Tag.all
     @posts = @topic.posts.new(posts_params)
-    if  @posts.save
+    @posts.user_id = current_user.id
+    if @posts.save
     redirect_to topic_path(@topic)
     flash[:notice] = 'Posts was successfully created'
     else
-      render  "topics/show"
+      render "topics/show"
       end
   end
 
@@ -48,8 +49,8 @@ class PostsController < ApplicationController
     @posts = @topic.posts.find(params[:id])
     @posts.destroy
     format.html { redirect_to topic_posts_path(@topic), notice: 'Posts was successfully destroyed.'}
-  rescue ActiveRecord::RecordNotFound
-    format.html{  redirect_to topic_posts_path(@topic), notice: 'Record not found.'}
+    rescue ActiveRecord::RecordNotFound
+    format.html{ redirect_to topic_posts_path(@topic), notice: 'Record not found.'}
     end
   end
 
@@ -64,6 +65,6 @@ class PostsController < ApplicationController
   end
 
   def posts_params
-    params.require(:post).permit(:name, :description,:avatar, tag_ids: [],tags_attributes: [:id, :name])
+    params.require(:post).permit(:name, :description,:avatar, tags_attributes: %i[id name], tag_ids: [])
   end
 end

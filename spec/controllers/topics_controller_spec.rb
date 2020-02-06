@@ -1,8 +1,10 @@
 require 'rails_helper'
 RSpec.describe TopicsController, type: :controller do
   describe 'GET #index' do
-    context "Not render views" do
+    context 'Not render views' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         get :index
       end
       it 'returns a success response' do
@@ -17,8 +19,10 @@ RSpec.describe TopicsController, type: :controller do
         expect(assigns(:topics)).to eq([topic])
       end
     end
-    context "Pagination test cases" do
+    context 'Pagination test cases' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         get :index
       end
       it 'checks the limits of a page' do
@@ -26,7 +30,7 @@ RSpec.describe TopicsController, type: :controller do
       end
       it 'Checks the Page offset correctly' do
         1.upto(24) do
-          topic=Topic.create(title: "Anything")
+          topic=Topic.create(title: 'Anything')
         end
         get :index, params: {page: 3}
         expect(assigns[:topics].map(&:id).count).to eq(4)
@@ -37,6 +41,8 @@ RSpec.describe TopicsController, type: :controller do
     context 'Topic GET#show'do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
       get :show, params: {id: topic.to_param}
     end
@@ -59,6 +65,8 @@ RSpec.describe TopicsController, type: :controller do
     context 'Post #new' do
       render_views
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         topic = Topic.create(title: 'Anything')
         get :show, params: {id: topic.to_param}
       end
@@ -78,6 +86,8 @@ RSpec.describe TopicsController, type: :controller do
   describe 'GET #new' do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       get :new
     end
     it 'returns a content type' do
@@ -95,6 +105,8 @@ RSpec.describe TopicsController, type: :controller do
   describe 'GET #edit' do
     render_views
     before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
       get :edit, params: {id: topic.to_param}
     end
@@ -112,6 +124,8 @@ RSpec.describe TopicsController, type: :controller do
   describe 'POST #create' do
     context 'positive cases' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         post :create, params: {topic: {title: 'Anything'}}
       end
       it 'returns a content type' do
@@ -136,6 +150,8 @@ RSpec.describe TopicsController, type: :controller do
     context 'negative cases' do
       render_views
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         post :create, params: {topic: {title: ''}}
       end
       it 'returns a error message' do
@@ -153,7 +169,10 @@ RSpec.describe TopicsController, type: :controller do
     context 'PATCH #update' do
       context 'positive  cases' do
         before do
+          user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          sign_in(user)
           topic = Topic.create(title: 'Anythings')
+
           patch :update, params: {id: topic.to_param, topic: {title: 'value'}}
         end
         it 'returns a content type' do
@@ -173,6 +192,8 @@ RSpec.describe TopicsController, type: :controller do
     context 'negative cases' do
       render_views
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         topic = Topic.create(title: 'Anything')
         patch :update, params: {id: topic.to_param, topic: {title: ''}}
       end
@@ -188,6 +209,8 @@ RSpec.describe TopicsController, type: :controller do
     end
     context 'PUT #update' do
       before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
         topic = Topic.create(title: 'Anything')
         put :update, params: {id: topic.to_param, topic: {title: 'Anything'}}
       end
@@ -204,12 +227,16 @@ RSpec.describe TopicsController, type: :controller do
   end
   describe 'DELETE #destroy' do
     it 'destroys the requested topic' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
       expect {
         delete :destroy, params: {id: topic.to_param}
       }.to change { Topic.count }.by(-1)
     end
     it 'notifies the flash message' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
       delete :destroy, params: {id: topic.to_param}
       expect(flash[:notice]).to eq('Topic was successfully destroyed.')
@@ -218,11 +245,15 @@ RSpec.describe TopicsController, type: :controller do
       expect(response).to have_http_status(:success)
     end
     it 'returns a redirect path' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       topic = Topic.create(title: 'Anything')
       delete :destroy, params: {id: topic.to_param}
       expect(response).to redirect_to(topics_path)
     end
     it 'returns a ActiveRecord::RecordNotFound and redirect path' do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
       delete :destroy , params: {id: -1}
       expect(flash[:notice]).to eq('Record not found.')
       expect(response).to redirect_to(topics_path)
