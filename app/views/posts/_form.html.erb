@@ -1,4 +1,4 @@
-<%= bootstrap_form_with(model: [@topic, @posts], local: true) do |form| %>
+<%= bootstrap_form_with(model: [@topic, @posts], remote: true) do |form| %>
   <% if @posts.errors.any? %>
     <div id="alert alert-danger error_explanation"  class="alert alert-danger" role="alert">
       <h2><%= pluralize(@posts.errors.count, "error") %> prohibited this posts from being saved:</h2>
@@ -19,21 +19,23 @@
     <%= form.text_area :description ,class: "form-control", placeholder:"Please enter a valid Description"%>
   </p>
     </div>
-  <p>
-    <%= form.submit %>
+  <h3>Choose File</h3>
   </p>
+  <%= form.file_field :avatar %>
+  <p>
   <h3>Creat Tag</h3>
 <p>
 
    <%=form.fields_for :tags, @posts.tags.build do |t| %>
     <%=t.text_field :name%>
       <%end %>
-</p>
-  <%= form.file_field :avatar %>
-  <p>
     <%= form.label :Tags %><br>
     <% @tags.each do |tag| %>
       <%= check_box_tag "post[tag_ids][]", tag.id, @posts.tags.include?(tag) %>
       <%= tag.name %><br>
+      <p>
+      </p>
     <% end %>
+    <%= form.submit %>
+
 <% end %>

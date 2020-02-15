@@ -9,7 +9,7 @@
   <%= @posts.description %>
 <p><%= render 'ratings/form' %></p>
 </p>
-    <% if @tags.count > 0 %>
+    <% if @tags.size > 0 %>
       <h3>Tags:</h3>
       <% @tags.each do |tag| %>
         <p><%= tag.name %></p>
@@ -18,23 +18,22 @@
   </div>
   <div class="col-2">
     <p><h3>Ratings</h3></p>
-    <p><%= '1 star' %> : <%= @ratings['1 star'].equal?(nil)? 0:@ratings['1 star'] %></p>
-    <p><%= '2 star' %> : <%= @ratings['2 star'].equal?(nil)? 0:@ratings['2 star'] %></p>
-    <p><%= '3 star' %> : <%= @ratings['3 star'].equal?(nil)? 0:@ratings['3 star'] %></p>
-    <p><%= '4 star' %> : <%= @ratings['4 star'].equal?(nil)? 0:@ratings['4 star'] %></p>
-    <p><%= '5 star' %> : <%= @ratings['5 star'].equal?(nil)? 0:@ratings['5 star'] %></p>
+    <%count=1 %>
+    <%while count<=5 %>
+    <p><%= count %> : <%= @ratings[count].equal?(nil)? 0:@ratings[count] %></p>
+<% count=count+1 %>
+      <%end %>
   </div>
   <div class="col-2">
     <p>
     <h3>Ratings Average</h3>
     </p>
 <p>
-  <% @avg = @posts.ratings.average(:ratings).round(1) unless @posts.ratings.count<1 %>
   <%= "#{@avg} Out of 5" unless @posts.ratings.count<1 %><br>
 </div>
   <div class="col-2">
     <p><h3>Comments count</h3></p>
-    <p><%=@posts.comments.count %></p>
+      <%= @posts.comments_count%>
   </div>
   <div class="col-2">
     <% if @posts.avatar.attached? %>
@@ -49,3 +48,11 @@
 <%= render 'comments/form' %>
 
 <%= link_to 'Back', topic_posts_path(@topic) , class:"btn btn-primary"%>
+
+
+<script>
+    Rails.ajax({
+        url: "/posts/<%=@posts.id %>/readstatus",
+        type: "POST",
+    });
+</script>

@@ -8,8 +8,8 @@ gem 'rails', '~> 5.2.4', '>= 5.2.4.1'
 # Use sqlite3 as the database for Active Record
 gem 'sqlite3'
 # Use Puma as the app server
-gem 'puma', '~> 3.11'
 gem 'hirb'
+gem 'puma', '~> 3.11'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 5.0'
 # Use Uglifier as compressor for JavaScript assets
@@ -44,32 +44,35 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'web-console', '>= 3.3.0'
   gem 'bullet'
+  gem "letter_opener"
+  gem 'web-console', '>= 3.3.0'
 end
 
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'selenium-webdriver'
   # Easy installation and use of chromedriver to run system tests with Chrome
-  gem 'webdrivers'
   gem 'capybara', '>= 2.15'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
-  gem 'shoulda-matchers', require: true
   gem 'shoulda'
+  gem 'shoulda-matchers', require: true
+  gem 'webdrivers'
 end
 gem 'bootstrap-sass'
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
-gem "cocoon"
-gem 'strong_migrations'
-gem "will_paginate"
-gem 'simple_form'
+gem 'bootstrap_flash_messages'
+gem 'bootstrap_form'
+gem 'cocoon'
 gem 'pagy'
-gem "bootstrap_form"
-gem "bootstrap_flash_messages"
-
+gem 'simple_form'
+gem 'strong_migrations'
+gem 'will_paginate'
+gem 'active_storage_validations'
 gem 'devise'
+gem 'unread'
 
+gem 'cancancan'

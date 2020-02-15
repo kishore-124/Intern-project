@@ -1,0 +1,9 @@
+<% if @posts.save %>
+alert("Post Created");
+<% else %>
+<% if @posts.errors.any?  %>
+<%@posts.errors.full_messages.each do |message| %>
+alert("<%=message %>")
+<%end %>
+<% end %>
+<% end %>

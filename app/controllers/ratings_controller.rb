@@ -2,14 +2,10 @@ class RatingsController < ApplicationController
   before_action :load_topic, only: %i[create]
   before_action :load_post, only: %i[create]
   def create
-    if params[:rating]
     @ratings = @posts.ratings.new(rating_params)
-    @ratings.save
+    if @ratings.save
     flash[:notice] = 'Ratings added successfully'
     redirect_to topic_post_path(@topic, @posts)
-    else
-      flash[:notice] = 'Please select one ratings'
-      redirect_to topic_post_path(@topic, @posts)
     end
   end
 
@@ -24,6 +20,6 @@ class RatingsController < ApplicationController
   end
 
   def rating_params
-    params.require(:rating).permit(:ratings)
+    params.require(:rating).permit(:star)
   end
 end

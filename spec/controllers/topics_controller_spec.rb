@@ -2,7 +2,7 @@ require 'rails_helper'
 RSpec.describe TopicsController, type: :controller do
   describe 'GET #index' do
     context 'Not render views' do
-      before do
+      before(:each) do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
         get :index
@@ -10,12 +10,13 @@ RSpec.describe TopicsController, type: :controller do
       it 'returns a success response' do
         expect(response).to have_http_status(:success)
       end
+
       it 'returns a rendered template format' do
         expect(response.content_type).to eq 'text/html'
         expect(response).to render_template('index')
       end
       it 'assigns @topics' do
-        topic = Topic.create(title: 'anything')
+        topic = Topic.create!(title: 'anything')
         expect(assigns(:topics)).to eq([topic])
       end
     end
@@ -36,6 +37,26 @@ RSpec.describe TopicsController, type: :controller do
         expect(assigns[:topics].map(&:id).count).to eq(4)
       end
     end
+    context 'JSON test cases' do
+      before(:each) do
+        request.headers["accept"] = 'application/json'
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        sign_in(user)
+        get :index
+      end
+
+      it 'returns a success response' do
+        expect(response).to have_http_status(:success)
+      end
+      it "JSON body response contains expected recipe attributes" do
+        json_response = JSON.parse(response.body)
+        expect(hash_body.keys).to match_array([:id, :title])
+      end
+      it 'returns a rendered template format' do
+        expect(response.content_type).to eq 'application/json'
+      end
+
+      end
   end
   describe 'GET #show' do
     context 'Topic GET#show'do

@@ -1,7 +1,7 @@
 class Topic < ApplicationRecord
   self.ignored_columns = ["user_id"]
   has_many :posts, dependent: :destroy
-  validates :title, presence: true
+  validates :title, presence: true, length: { maximum: 20 }
 end
 
 # def title_presence

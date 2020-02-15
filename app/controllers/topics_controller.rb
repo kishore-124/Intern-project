@@ -1,6 +1,5 @@
 class TopicsController < ApplicationController
   before_action :set_topic, only: %i[show edit update]
-
   def index
     @pagy, @topics = pagy(Topic.all, items: 10)
   end

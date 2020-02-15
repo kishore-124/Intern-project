@@ -22,35 +22,35 @@ RSpec.describe TagsController, type: :controller do
     end
     it 'Checks the Page offset correctly' do
       1.upto(12) do
-        tag=Tag.create(name: "Anything")
+        tag = Tag.create(name: 'Anything')
       end
-      get :index, params: {page: 2}
+      get :index, params: { page: 2 }
       expect(assigns[:tags].map(&:id).count).to eq(2)
     end
   end
   describe 'GET #show' do
-      render_views
-      before do
-        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
-        sign_in(user)
-        tag = Tag.create(name: 'Anything')
-        get :show, params: {id: tag.to_param}
-      end
-      it 'returns a content type' do
-        expect(response.content_type).to eq 'text/html'
-        expect(response).to render_template('show')
-      end
-      it 'returns a success response' do
-        expect(response).to have_http_status(:success)
-      end
-      it 'assigns @tag' do
-        tag = Tag.create(name: 'anything')
-        get :show,  params: {id: tag.to_param}
-        expect(assigns(:tag)).to eq(tag)
-      end
-      it 'returns a content in page' do
-        expect(response.body).to match('Anything')
-      end
+    render_views
+    before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      sign_in(user)
+      tag = Tag.create(name: 'Anything')
+      get :show, params: { id: tag.to_param }
+    end
+    it 'returns a content type' do
+      expect(response.content_type).to eq 'text/html'
+      expect(response).to render_template('show')
+    end
+    it 'returns a success response' do
+      expect(response).to have_http_status(:success)
+    end
+    it 'assigns @tag' do
+      tag = Tag.create(name: 'anything')
+      get :show, params: { id: tag.to_param }
+      expect(assigns(:tag)).to eq(tag)
+    end
+    it 'returns a content in page' do
+      expect(response.body).to match('Anything')
+    end
   end
   describe 'GET #new' do
     render_views
@@ -77,7 +77,7 @@ RSpec.describe TagsController, type: :controller do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       tag = Tag.create(name: 'Anything')
-      get :edit, params: {id: tag.to_param}
+      get :edit, params: { id: tag.to_param }
     end
     it 'returns a content type of the page' do
       expect(response.content_type).to eq 'text/html'
@@ -95,7 +95,7 @@ RSpec.describe TagsController, type: :controller do
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
-        post :create, params: {tag: {name: 'Anything'}}
+        post :create, params: { tag: { name: 'Anything' } }
       end
       it 'returns a content type' do
         expect(response.content_type).to eq 'text/html'
@@ -108,7 +108,7 @@ RSpec.describe TagsController, type: :controller do
       end
       it 'returns a change the tag count' do
         expect {
-          post :create, params: {tag: {name: 'Anything'}}
+          post :create, params: { tag: { name: 'Anything' } }
         }.to change(Tag, :count).by(1)
       end
       it 'Notifies a flash save' do
@@ -121,7 +121,7 @@ RSpec.describe TagsController, type: :controller do
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
-        post :create, params: {tag: {name: ''}}
+        post :create, params: { tag: { name: '' } }
       end
       it 'returns a error message' do
         expect(assigns(:tag).errors.messages).to eq(:name => ["can't be blank"])
@@ -130,7 +130,7 @@ RSpec.describe TagsController, type: :controller do
         expect(response.body).to match('1 error prohibited this tag from being saved:')
       end
       it 'returns a error message' do
-        expect(response.body).to match  ' <li>Name can&#39;t be blank</li>'
+        expect(response.body).to match ' <li>Name can&#39;t be blank</li>'
       end
       it 'returns a success status' do
         expect(response.status).to eq (200)
@@ -147,7 +147,7 @@ RSpec.describe TagsController, type: :controller do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
           sign_in(user)
           tag = Tag.create(name: 'Anythings')
-          patch :update, params: {id: tag.to_param, tag: {name: 'value'}}
+          patch :update, params: { id: tag.to_param, tag: { name: 'value' } }
         end
         it 'returns a content type' do
           expect(response.content_type).to eq 'text/html'
@@ -169,7 +169,7 @@ RSpec.describe TagsController, type: :controller do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
         tag = Tag.create(name: 'Anything')
-        patch :update, params: {id: tag.to_param, tag: {name: ''}}
+        patch :update, params: { id: tag.to_param, tag: { name: '' } }
       end
       it 'returns a error message' do
         expect(assigns(:tag).errors.messages).to eq(:name => ["can't be blank"])
@@ -178,7 +178,7 @@ RSpec.describe TagsController, type: :controller do
         expect(response.body).to match('1 error prohibited this tag from being saved:')
       end
       it 'returns a error message' do
-        expect(response.body).to match  ' <li>Name can&#39;t be blank</li>'
+        expect(response.body).to match ' <li>Name can&#39;t be blank</li>'
       end
       it 'returns a success status' do
         expect(response.status).to eq (200)
@@ -192,7 +192,7 @@ RSpec.describe TagsController, type: :controller do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
         tag = Tag.create(name: 'Anything')
-        put :update, params: {id: tag.to_param, tag: {name: 'Anything'}}
+        put :update, params: { id: tag.to_param, tag: { name: 'Anything' } }
       end
       it 'returns a rendered status' do
         expect(response.status).to eq (302)
@@ -211,14 +211,14 @@ RSpec.describe TagsController, type: :controller do
       sign_in(user)
       tag = Tag.create(name: 'Anything')
       expect {
-        delete :destroy, params: {id: tag.to_param}
+        delete :destroy, params: { id: tag.to_param }
       }.to change { Tag.count }.by(-1)
     end
     it 'notifies the flash message' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       tag = Tag.create(name: 'Anything')
-      delete :destroy, params: {id: tag.to_param}
+      delete :destroy, params: { id: tag.to_param }
       expect(flash[:notice]).to eq('Tag was successfully destroyed.')
     end
     it 'returns a success response' do
@@ -228,13 +228,13 @@ RSpec.describe TagsController, type: :controller do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       tag = Tag.create(name: 'Anything')
-      delete :destroy, params: {id: tag.to_param}
+      delete :destroy, params: { id: tag.to_param }
       expect(response).to redirect_to(tags_path)
     end
     it 'returns a ActiveRecord::RecordNotFound and redirect path' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
-      delete :destroy , params: {id: -1}
+      delete :destroy, params: { id: -1 }
       expect(flash[:notice]).to eq('Record not found.')
       expect(response).to redirect_to(tags_path)
     end

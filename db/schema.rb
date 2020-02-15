@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_05_112432) do
+ActiveRecord::Schema.define(version: 2020_02_14_120532) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -41,11 +41,11 @@ ActiveRecord::Schema.define(version: 2020_02_05_112432) do
   end
 
   create_table "comments", force: :cascade do |t|
-    t.string "user"
     t.string "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "post_id"
+    t.integer "user_id"
     t.index ["post_id"], name: "index_comments_on_post_id"
   end
 
@@ -56,6 +56,7 @@ ActiveRecord::Schema.define(version: 2020_02_05_112432) do
     t.datetime "updated_at", null: false
     t.integer "topic_id"
     t.integer "user_id"
+    t.integer "comments_count"
     t.index ["topic_id"], name: "index_posts_on_topic_id"
   end
 
@@ -64,8 +65,13 @@ ActiveRecord::Schema.define(version: 2020_02_05_112432) do
     t.integer "tag_id", null: false
   end
 
+  create_table "posts_users_read_status", id: false, force: :cascade do |t|
+    t.integer "post_id"
+    t.integer "user_id"
+  end
+
   create_table "ratings", force: :cascade do |t|
-    t.string "ratings"
+    t.integer "star"
     t.integer "post_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -84,6 +90,14 @@ ActiveRecord::Schema.define(version: 2020_02_05_112432) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "usercomments", force: :cascade do |t|
+    t.integer "star"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "user_id"
+    t.integer "comment_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
@@ -92,6 +106,10 @@ ActiveRecord::Schema.define(version: 2020_02_05_112432) do
     t.datetime "remember_created_at"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "name"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at"
+    t.datetime "confirmation_sent_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end

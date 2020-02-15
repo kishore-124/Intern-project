@@ -1,1 +1,4 @@
-json.array! @topics, partial: "topics/topic", as: :topic
+json.array! @topics do |category|
+  json.id category.id
+  json.title category.title
+end

@@ -1,9 +1,22 @@
+<div class="row">
+  <div class="col-6">
 <p>
   <strong>User:</strong>
-  <%= @comment.user %>
+  <%= @comment.user.email %>
 </p>
 <p>
   <strong>Comment:</strong>
   <%= @comment.comment %>
 </p>
-<%= link_to 'Back', topic_post_path(@topic,@posts),class:"btn btn-primary" %>
+
+<p><%= render 'commentratings/form' %></p>
+
+<p><%= link_to 'Back', topic_post_path(@topic,@posts),class:"btn btn-primary" %></p>
+  </div>
+  <div class="col-4">
+  <%@user_ratings.each do |rating| %>
+      <p><%=@comment.user.email %> : <%=rating.star %></p>
+
+    <% end %>
+  </div>
+</div>

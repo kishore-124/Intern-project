@@ -9,8 +9,7 @@ class ArticlesController < ApplicationController
     @articles = Article.all
   end
 
-  def edit
-  end
+  def edit; end
 
   def show
     @comment = Comment.new
