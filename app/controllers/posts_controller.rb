@@ -7,7 +7,10 @@ class PostsController < ApplicationController
       @topic = Topic.find(params[:topic_id])
       @pagy, @posts = pagy(@topic.posts.eager_load(:topic, :user).all, items: 10)
     else
-      @pagy, @posts = pagy(Post.eager_load(:topic, :user).all, items: 10)
+      @start_date = params[:start_date].blank? ? Date.yesterday : params[:start_date]
+      @end_date = params[:end_date].blank? ? Date.today : params[:end_date]
+
+      @pagy, @posts = pagy(Post.date_filter(@start_date,@end_date).includes(:topic, :user).all, items: 10)
     end
   end
   def edit

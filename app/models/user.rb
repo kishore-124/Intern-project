@@ -7,4 +7,6 @@ class User < ApplicationRecord
   has_many :comments,  :through => :usercomments
   has_many :usercomments
   has_and_belongs_to_many :posts , join_table: :posts_users_read_status
+
+
 end

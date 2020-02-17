@@ -1,4 +1,5 @@
 class Post < ApplicationRecord
+  scope :date_filter, -> (star_date,end_date){where('DATE(created_at) >= ? AND DATE(created_at) <= ?',star_date,end_date)}
   belongs_to :user
   has_and_belongs_to_many :users , join_table: :posts_users_read_status
   has_many :ratings, dependent: :destroy

@@ -1,5 +1,8 @@
+# frozen_string_literal: true
+
+# ArticlesController
 class ArticlesController < ApplicationController
-  before_action :load_article, only: [:show, :edit, :update, :destroy]
+  before_action :load_article, only: %i[show edit update destroy]
 
   def new
     @article = Article.new

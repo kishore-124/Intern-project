@@ -132,7 +132,7 @@ RSpec.describe CommentsController, type: :controller do
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           comment = post.comments.create(comment: 'kk', user_id: user.id)
-          patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: 'kkk' , user_id: user.id} }
+          patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: 'kkk', user_id: user.id} }
         end
         it 'returns a content type' do
           expect(response.content_type).to eq 'text/html'
@@ -158,7 +158,7 @@ RSpec.describe CommentsController, type: :controller do
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           comment = post.comments.create(comment: 'kk', user_id: user.id)
-          patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: '' , user_id: user.id} }
+          patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: '', user_id: user.id} }
         end
         it 'returns a error message' do
           expect(assigns(:comment).errors.messages).to eq(comment: ["can't be blank"])
@@ -229,7 +229,7 @@ RSpec.describe CommentsController, type: :controller do
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create(comment: 'kk', user_id: user.id)
       expect {
-        delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id,user_id:user1.id }
+        delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id, user_id: user1.id }
       }.to raise_error(CanCan::AccessDenied)
     end
     it 'notifies the flash message' do
@@ -268,9 +268,10 @@ RSpec.describe CommentsController, type: :controller do
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create(comment: 'kk', user_id: user.id)
       expect {
-        patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: 'kkk' , user_id: user.id},user_id:user1.id }
+        patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: 'kkk', user_id: user.id}, user_id: user1.id }
       }.to raise_error(CanCan::AccessDenied)
     end
   end
+
 end
 

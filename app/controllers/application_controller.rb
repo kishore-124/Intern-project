@@ -1,3 +1,6 @@
+# frozen_string_literal: true
+
+# ApplicationController
 class ApplicationController < ActionController::Base
   include Pagy::Backend
   protect_from_forgery with: :exception
@@ -8,8 +11,9 @@ class ApplicationController < ActionController::Base
   protected
 
   def configure_permitted_parameters
-    devise_parameter_sanitizer.permit(:sign_up, keys: [:name,:email,:password,:password_conformation])
-
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name
+                                                         email
+                                                         password
+                                                         password_conformation])
   end
-
 end

@@ -2,7 +2,7 @@ class CommentsController < ApplicationController
   before_action :load_topic, only: %i[show edit update create user_comment_rating]
   before_action :load_post, only: %i[show edit update create user_comment_rating]
   before_action :load_comment, only: %i[show edit update user_comment_rating]
-  load_and_authorize_resource :only => %i[edit update show destroy]
+  load_and_authorize_resource only: %i[edit update show destroy]
   def create
     @ratings = @posts.ratings.group(:ratings).count
     @rating = Rating.new
@@ -50,10 +50,10 @@ class CommentsController < ApplicationController
     end
 
   end
+
   def user_comment_rating
     @user_rating = @comment.usercomments.new(load_user_comment)
-    @user_rating.update(user_id:current_user.id)
-    @user_rating.save
+    @user_rating.update(user_id: current_user.id)
     redirect_to topic_post_comment_path(@topic,@posts,@comment)
   end
 
@@ -70,9 +70,11 @@ class CommentsController < ApplicationController
   def load_post
     @posts = Post.find(params[:post_id])
   end
+
   def load_user_comment
     params.require(:usercomment).permit(:star)
   end
+
   def comment_params
     params.require(:comment).permit( :comment)
   end

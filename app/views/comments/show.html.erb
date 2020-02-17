@@ -14,8 +14,9 @@
 <p><%= link_to 'Back', topic_post_path(@topic,@posts),class:"btn btn-primary" %></p>
   </div>
   <div class="col-4">
+    <h3>Ratings</h3>
   <%@user_ratings.each do |rating| %>
-      <p><%=@comment.user.email %> : <%=rating.star %></p>
+      <p><%=rating.user.email %> : <%=rating.star %></p>
 
     <% end %>
   </div>
