@@ -1,23 +1,26 @@
 class Post < ApplicationRecord
-  scope :date_filter, -> (star_date,end_date){where('DATE(created_at) >= ? AND DATE(created_at) <= ?',star_date,end_date)}
+  scope :date_filter, ->(star_date, end_date) { where('DATE(created_at) >= ? AND DATE(created_at) <= ?', star_date, end_date) }
   belongs_to :user
-  has_and_belongs_to_many :users , join_table: :posts_users_read_status
+  has_and_belongs_to_many :users, join_table: :posts_users_read_status
   has_many :ratings, dependent: :destroy
   has_one_attached :avatar
   has_and_belongs_to_many :tags
   has_many :comments, dependent: :destroy
   belongs_to :topic
   accepts_nested_attributes_for :tags, reject_if: :reject_tags
-  validates :name, presence: true,length: { maximum: 20 }
+  validates :name, presence: true, length: {maximum: 20}
   validate :avatar_image
+  self.ignored_columns = ['rating_average']
+
   def avatar_image
-    if avatar.attached? == false
-      errors.add(:avatar,"can't be blank")
-    elsif avatar.byte_size > 2_000_000.bytes
-      avatar.purge
-      errors.add(:avatar,'should be less than 2 mb')
+    errors.add(:avatar, "can't be blank") unless avatar.attached?
+    if avatar.attached?
+    if avatar.byte_size > 2_000_000.bytes
+      errors.add(:avatar, 'should be less than 2 mb')
+    end
     end
   end
+
   def reject_tags(attributes)
     attributes['name'].blank?
   end

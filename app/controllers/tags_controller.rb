@@ -1,5 +1,9 @@
+# frozen_string_literal: true
+
+# TagsController
 class TagsController < ApplicationController
-  before_action :set_tag, only: %i[show edit update]
+  before_action :set_tag, only: %i[show edit update destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   # GET /tags
   # GET /tags.json
@@ -9,7 +13,8 @@ class TagsController < ApplicationController
 
   # GET /tags/1
   # GET /tags/1.json
-  def show; end
+  def show;
+  end
 
   # GET /tags/new
   def new
@@ -17,7 +22,8 @@ class TagsController < ApplicationController
   end
 
   # GET /tags/1/edit
-  def edit; end
+  def edit;
+  end
 
   # POST /tags
   # POST /tags.json
@@ -53,12 +59,9 @@ class TagsController < ApplicationController
   # DELETE /tags/1.json
   def destroy
     respond_to do |format|
-    @tag = Tag.find(params[:id])
-    @tag.destroy
-    format.html { redirect_to tags_url, notice: 'Tag was successfully destroyed.' }
-    format.json { head :no_content }
-    rescue ActiveRecord::RecordNotFound
-      format.html{ redirect_to tags_url, notice: 'Record not found.' }
+      @tag.destroy
+      format.html { redirect_to tags_url, notice: 'Tag was successfully destroyed.' }
+      format.json { head :no_content }
     end
   end
 
@@ -72,5 +75,9 @@ class TagsController < ApplicationController
   # Never trust parameters from the scary internet, only allow the white list through.
   def tag_params
     params.require(:tag).permit(:name)
+  end
+
+  def not_found
+    redirect_to tags_url, notice: 'Record not found.'
   end
 end

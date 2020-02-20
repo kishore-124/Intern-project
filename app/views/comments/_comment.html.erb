@@ -1,5 +1,5 @@
 <h1>Comments</h1>
-<% if @posts.comments.count == 0 %>
+<% if @post.comments.count == 0 %>
   <h3>No Comments</h3>
 <% else %>
   <table class="table table-striped table-dark">
@@ -9,15 +9,15 @@
         <th>Edit</th>
       <th>Delete</th>
     </tr>
-    <% @posts.comments.each do |comment| %>
+    <% @post.comments.each do |comment| %>
       <tr>
         <td><%=comment.user.email %></td>
-        <td><%= link_to comment.comment  , topic_post_comment_path(@topic, @posts,@posts.comments.ids) %></td>
+        <td><%= link_to comment.comment  , topic_post_comment_path(@post.topic, @post,comment) %></td>
         <% if can? :update, comment %>
-          <td><%= link_to 'Edit', edit_topic_post_comment_path(@topic, @posts,@posts.comments.ids),class:"btn btn-primary" %></td>
+          <td><%= link_to 'Edit', edit_topic_post_comment_path(@post.topic, @post,comment),class:"btn btn-primary" %></td>
         <% end %>
         <% if can? :destroy, comment %>
-        <td><%= link_to 'Destroy', topic_post_comment_path(@topic,@posts,@posts.comments.ids),
+        <td><%= link_to 'Destroy', topic_post_comment_path(@post.topic,@post,comment),
                         method: :delete,
                         data: {confirm: 'Are you sure?'}, class:"btn btn-primary" %></td>
 

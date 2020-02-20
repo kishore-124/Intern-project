@@ -1,9 +1,7 @@
-<% if @posts.save %>
+<% if @post.save %>
 alert("Post Created");
 <% else %>
-<% if @posts.errors.any?  %>
-<%@posts.errors.full_messages.each do |message| %>
+<%@post.errors.full_messages.each do |message| %>
 alert("<%=message %>")
-<%end %>
 <% end %>
 <% end %>

@@ -1,11 +1,18 @@
+# frozen_string_literal: true
+
+#TopicsController
+
 class TopicsController < ApplicationController
-  before_action :set_topic, only: %i[show edit update]
+
+  before_action :set_topic, only: %i[show edit update destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def index
     @pagy, @topics = pagy(Topic.all, items: 10)
   end
 
   def show
-    @posts = Post.new
+    @post = Post.new
     @tags = Tag.all
   end
 
@@ -13,13 +20,14 @@ class TopicsController < ApplicationController
     @topic = Topic.new
   end
 
-  def edit; end
+  def edit;
+  end
 
   def create
     @topic = Topic.new(topic_params)
     respond_to do |format|
       if @topic.save
-        format.html { redirect_to @topic, notice: 'Topic was successfully created.'}
+        format.html { redirect_to @topic, notice: 'Topic was successfully created.' }
         format.json { render :show, status: :created, location: @topic }
       else
         format.html { render :new }
@@ -31,7 +39,7 @@ class TopicsController < ApplicationController
   def update
     respond_to do |format|
       if @topic.update(topic_params)
-        format.html { redirect_to @topic, notice: 'Topic was successfully updated.'}
+        format.html { redirect_to @topic, notice: 'Topic was successfully updated.' }
         format.json { render :show, status: :ok, location: @topic }
       else
         format.html { render :edit }
@@ -41,14 +49,10 @@ class TopicsController < ApplicationController
   end
 
   def destroy
-
     respond_to do |format|
-      @topic = Topic.find(params[:id])
       @topic.destroy
-      format.html { redirect_to topics_url, notice: 'Topic was successfully destroyed.'}
+      format.html { redirect_to topics_url, notice: 'Topic was successfully destroyed.' }
       format.json { head :no_content }
-    rescue ActiveRecord::RecordNotFound
-      format.html{ redirect_to topics_url,  notice: 'Record not found.' }
     end
   end
 
@@ -62,4 +66,7 @@ class TopicsController < ApplicationController
     params.require(:topic).permit(:title)
   end
 
+  def not_found
+    redirect_to topics_url, notice: 'Record not found.'
+  end
 end

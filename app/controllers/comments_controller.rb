@@ -1,50 +1,46 @@
+# frozen_string_literal: true
+
+# CommentsController
 class CommentsController < ApplicationController
-  before_action :load_topic, only: %i[show edit update create user_comment_rating]
-  before_action :load_post, only: %i[show edit update create user_comment_rating]
-  before_action :load_comment, only: %i[show edit update user_comment_rating]
-  load_and_authorize_resource only: %i[edit update show destroy]
+  before_action :load_post, only: %i[show edit update create user_comment_rating destroy]
+  before_action :load_comment, only: %i[show edit update user_comment_rating destroy]
+  before_action :load_tags, only: %i[create update]
+  authorize_resource only: %i[edit update show destroy]
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
   def create
-    @ratings = @posts.ratings.group(:ratings).count
+    @ratings = @post.ratings.group(:ratings).count
     @rating = Rating.new
-    @tags = Tag.all
-    @comment = @posts.comments.new(comment_params)
+    @comment = @post.comments.new(comment_params)
     @comment.user_id = current_user.id
     if @comment.save
       flash[:notice] = 'comment was successfully created'
-      redirect_to topic_post_path(@topic, @posts)
+      redirect_to topic_post_path(@post.topic_id, @post)
     else
       render 'posts/show'
-      end
-  end
-
-  def destroy
-    respond_to do |format|
-      @topic = Topic.find(params[:topic_id])
-      @posts = Post.find(params[:post_id])
-      @comment = @posts.comments.find(params[:id])
-      authorize! :destroy, @comment
-      @comment.destroy
-      format.html { redirect_to topic_post_path(@topic, @posts), notice: 'Comment was successfully destroyed'}
-    rescue ActiveRecord::RecordNotFound
-      format.html { redirect_to  topic_post_path(@topic, @posts), notice: 'Record not found.'}
     end
   end
 
-  def edit; end
+  def destroy
+    @comment.destroy!
+    redirect_to topic_post_path(@post.topic_id, @post)
+    flash[:notice] = 'Comment was successfully destroyed'
+  end
+
+  def edit;
+  end
 
   def show
-    @user_rating = Usercomment.new
+    @user_comment_rating = UserCommentRating.new
     @tags = Tag.new
-    @user_ratings=@comment.usercomments.all
+    @user_comment_ratings = @comment.user_comment_ratings.all
   end
 
   def update
-    authorize! :update, @comment
-    @ratings = @posts.ratings.group(:ratings).count
-    @tags = Tag.all
+    @ratings = @post.ratings.group(:ratings).count
     if @comment.update(comment_params)
       flash[:notice] = 'comment was successfully updated'
-      redirect_to topic_post_path(@topic, @posts)
+      redirect_to topic_post_path(@post.topic_id, @post)
     else
       render 'comments/edit'
     end
@@ -52,30 +48,42 @@ class CommentsController < ApplicationController
   end
 
   def user_comment_rating
-    @user_rating = @comment.usercomments.new(load_user_comment)
-    @user_rating.update(user_id: current_user.id)
-    redirect_to topic_post_comment_path(@topic,@posts,@comment)
+    @user_comment_rating = @comment.user_comment_ratings.new(load_user_comment)
+    if @user_comment_rating.update(user_id: current_user.id)
+      flash[:notice] = 'Rating added successfully'
+      redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
+    else
+      flash[:notice] = 'user already given rating'
+      redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
+    end
+
   end
 
   private
 
-  def load_topic
-    @topic = Topic.find(params[:topic_id])
-  end
+
 
   def load_comment
-    @comment = @posts.comments.find(params[:id] || params[:comment_id])
+    @comment = @post.comments.find(params[:id] || params[:comment_id])
   end
 
   def load_post
-    @posts = Post.find(params[:post_id])
+    @post = Post.find(params[:post_id])
+  end
+
+  def load_tags
+    @tags = Tag.all
   end
 
   def load_user_comment
-    params.require(:usercomment).permit(:star)
+    params.require(:user_comment_rating).permit(:star)
   end
 
   def comment_params
-    params.require(:comment).permit( :comment)
+    params.require(:comment).permit(:comment)
+  end
+
+  def not_found
+    redirect_to topic_post_path(@post.topic_id, @post), notice: 'Record not found.'
   end
 end

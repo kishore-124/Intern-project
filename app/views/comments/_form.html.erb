@@ -1,4 +1,4 @@
-<%= bootstrap_form_with(model: [@topic, @posts, @comment], local: true) do |form| %>
+<%= bootstrap_form_with(model: [@post.topic, @post, @comment], local: true) do |form| %>
   <% if @comment.errors.any? %>
     <div id="alert alert-danger error_explanation"  class="alert alert-danger" role="alert">
       <h2><%= pluralize(@comment.errors.count, "error") %> prohibited this comment from being saved:</h2>

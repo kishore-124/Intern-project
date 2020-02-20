@@ -2,7 +2,7 @@ require 'rails_helper'
 RSpec.describe PostsController, type: :controller do
   describe 'GET #index' do
     before do
-      user = User.create(email: 'kishore@mallow-tech.com', password:'9047446861')
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       get :index, params: { user_id: user.id }
     end
@@ -14,24 +14,24 @@ RSpec.describe PostsController, type: :controller do
       expect(response).to render_template('index')
     end
     it 'assigns @posts' do
-      user = User.create(email: 'kishore@mallow-tech1.com', password:'9047446861')
+      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
       sign_in(user)
 
       topic = Topic.create(title: 'anything')
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       expect(assigns(:posts)).to eq([post])
     end
     it 'checks the pagination limit value' do
       expect(assigns(:posts).limit_value).to eq(10)
     end
     it 'Checks the Page offset correctly' do
-      user = User.create(email: 'kishore@mallow-tech1.com', password:'9047446861')
+      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
       sign_in(user)
       1.upto(34) do
-        topic=Topic.create(title: 'Anything')
+        topic = Topic.create(title: 'Anything')
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-        post = topic.posts.create(name:'post', description:'kk', user_id: user.id, avatar:file)
+        post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       end
       get :index, params: { page: 4 }
       expect(assigns[:posts].map(&:id).count).to eq(4)
@@ -44,7 +44,7 @@ RSpec.describe PostsController, type: :controller do
       sign_in(user)
       topic = Topic.create(title: 'Anything')
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create!(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create!(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       get :show, params: { id: post.id, topic_id: topic.id }
     end
     it 'returns a content type' do
@@ -59,7 +59,7 @@ RSpec.describe PostsController, type: :controller do
       topic = Topic.create(title: 'anything')
       sign_in(user)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       get :show, params: { id: post.id, topic_id: topic.id }
       expect(assigns(:posts)).to eq(post)
     end
@@ -76,7 +76,7 @@ RSpec.describe PostsController, type: :controller do
       sign_in(user)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       topic = Topic.create(title: 'Anything')
-      post = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create!(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       get :edit, params: { id: post.id, topic_id: topic.id }
     end
     it 'returns a content type of the page' do
@@ -100,7 +100,7 @@ RSpec.describe PostsController, type: :controller do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-        post :create, params: { post: { name: 'post', description: 'kk', avatar:file  }, topic_id: topic.id }
+        post :create, params: { post: { name: 'post', description: 'kk', avatar: file  }, topic_id: topic.id }
       end
       it 'returns a content type' do
         expect(response.content_type).to eq 'text/html'
@@ -113,8 +113,8 @@ RSpec.describe PostsController, type: :controller do
         sign_in(user)
         topic = Topic.create(title: 'Anything')
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-        topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
-        expect(Post.count).to eq(1)
+        topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+        expect(Post.count).to eq(2)
       end
       it 'returns a redirect path' do
         expect(response).to redirect_to("/topics/#{assigns(:topic).id}")
@@ -127,10 +127,12 @@ RSpec.describe PostsController, type: :controller do
         user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
         topic = Topic.create(title: 'anything')
         sign_in(user)
-        postq = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id)
+        p '1'
+        postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id)
+        p '2'
      postq.avatar.attach(io: File.open('C:\Users\gopal\image8.jfif'), filename: 'image8.jfif', content_type: 'image/jpeg')
         expect(postq.avatar.attached?).to be_present
-        expect(postq.avatar.byte_size>2000.kilobytes).not_to be_present
+        expect(postq.avatar.byte_size < 2000.kilobytes).to be_truthy
       end
     end
 
@@ -144,8 +146,8 @@ RSpec.describe PostsController, type: :controller do
           sign_in(user)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           topic = Topic.create(title: 'Anything')
-          post = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
-          patch :update, params: { id:post.id, topic_id: topic.id , post:{ name: 'Post' , description: 'kkk' } }
+          post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+          patch :update, params: { id: post.id, topic_id: topic.id, post: { name: 'Post', description: 'kkk' } }
         end
         it 'returns a content type' do
           expect(response.content_type).to eq 'text/html'
@@ -173,8 +175,8 @@ RSpec.describe PostsController, type: :controller do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
         sign_in(user)
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-        post = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
-        patch :update, params: { id:post.id, tag_ids: 1, topic_id: topic.id , post:{ name: '' , description: '' } }
+        post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+        patch :update, params: { id: post.id, tag_ids: 1, topic_id: topic.id, post: { name: '', description: '' } }
       end
       it 'returns a error message' do
         expect(assigns(:posts).errors.messages).to eq(name: ["can't be blank"])
@@ -190,8 +192,8 @@ RSpec.describe PostsController, type: :controller do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
           sign_in(user)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-          post = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
-          patch :update, params: { id:post.id, tag_ids: 1, topic_id: topic.id , post:{ name: '' , description: '' } }
+          post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+          patch :update, params: { id: post.id, tag_ids: 1, topic_id: topic.id, post: { name: '', description: '' } }
         end
         it 'returns a error message' do
           expect(response.body).to match('1 error prohibited this posts from being saved:')
@@ -210,8 +212,8 @@ RSpec.describe PostsController, type: :controller do
         sign_in(user)
         topic = Topic.create(title: 'Anything')
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-        post = topic.posts.create(name: 'post' , description: 'kk', user_id: user.id, avatar:file)
-        put :update, params: { id:post.id, tag_ids: 1, topic_id: topic.id , post:{ name: 'Posts' , description: 'kkk' } }
+        post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+        put :update, params: { id: post.id, tag_ids: 1, topic_id: topic.id, post: { name: 'Posts', description: 'kkk' } }
       end
       it 'returns a redirect status' do
         expect(response.status).to eq (302)
@@ -227,17 +229,17 @@ RSpec.describe PostsController, type: :controller do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name:'post', description:'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       expect do
         delete :destroy, params: { id: post.id, topic_id: topic.id }
-      end.to change{Post.count}.by(-1)
+      end.to change {Post.count}.by(-1)
     end
     it 'notifies the flash message' do
       topic = Topic.create(title: 'anything')
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name:'post', description:'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       
       delete :destroy, params: { id: post.id, topic_id: topic.id }
       expect(flash[:notice]).to eq('Posts was successfully destroyed.')
@@ -252,17 +254,19 @@ RSpec.describe PostsController, type: :controller do
       user1 = User.create(email: 'kishore@mallow-tech2.com', password: '9047446861')
       sign_in(user1)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name:'post', description:'kk', user_id: user.id, avatar:file)
-      expect do
-        delete :destroy, params: { id: post.id, topic_id: topic.id ,user_id:user1.id}
-      end.to raise_error(CanCan::AccessDenied)
+      post = topic.posts.create!(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+      p post
+      expect {
+          delete :destroy, params: { id: post.id, topic_id: topic.id, user_id: user1.id}
+      }.to raise_error(CanCan::AccessDenied)
+      p post
     end
     it 'returns a redirect path' do
       topic = Topic.create(title: 'Anything')
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
       sign_in(user)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name:'post', description:'kk', user_id: user.id, avatar:file)
+      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       delete :destroy, params: { id: post.id, topic_id: topic.id }
       expect(response).to redirect_to(topic_posts_path)
     end
@@ -277,25 +281,26 @@ RSpec.describe PostsController, type: :controller do
     file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
     post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
     comment = post.comments.create(comment: 'kk', user_id: user.id)
-    expect {
+    expect do
       delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id }
-    }.to change{post.comments.count}.by(-1)
+    end.to change {post.comments.count}.by(-1)
   end
   end
   describe 'PATCH#update' do
-
     it 'raises an authorization error' do
-      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
-      sign_in(user)
-      user1 = User.create(email: 'kishore@mallow-tech2.com', password: '9047446861')
-      sign_in(user1)
-      topic = Topic.create(title: 'Anything')
-      file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
-      expect {
-        patch :update, params: { id:post.id, topic_id: topic.id , post:{ name: 'Post' , description: 'kkk' } ,user_id:user1.id}
-      }.to raise_error(CanCan::AccessDenied)
-    end
+    user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
+    sign_in(user)
+    user1 = User.create(email: 'kishore@mallow-tech2.com', password: '9047446861')
+    sign_in(user1)
+    topic = Topic.create(title: 'Anything')
+    file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+    post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+
+    expect {
+      patch :update, params: { id: post.id, tag_ids: 1, topic_id: topic.id, post: { name: 'Post', description: 'KK',user_id:user.id },user_id:user1.id }
+    }.to raise_error(CanCan::AccessDenied)
+  end
+
   end
 end
 

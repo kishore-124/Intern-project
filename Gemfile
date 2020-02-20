@@ -34,8 +34,7 @@ gem 'jbuilder', '~> 2.5'
 # gem 'capistrano-rails', group: :development
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootstrap', '>= 1.1.0', require: false
-
+gem 'bootsnap', require: false
 group :development, :test do
   gem 'rspec-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -66,13 +65,8 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem 'bootstrap_flash_messages'
 gem 'bootstrap_form'
-gem 'cocoon'
+gem 'cancancan'
+gem 'devise'
 gem 'pagy'
 gem 'simple_form'
 gem 'strong_migrations'
-gem 'will_paginate'
-gem 'active_storage_validations'
-gem 'devise'
-gem 'unread'
-
-gem 'cancancan'

@@ -11,11 +11,11 @@
 
 <p><%= render 'commentratings/form' %></p>
 
-<p><%= link_to 'Back', topic_post_path(@topic,@posts),class:"btn btn-primary" %></p>
+<p><%= link_to 'Back', topic_post_path(@post.topic,@post),class:"btn btn-primary" %></p>
   </div>
   <div class="col-4">
     <h3>Ratings</h3>
-  <%@user_ratings.each do |rating| %>
+  <%@user_comment_ratings.each do |rating| %>
       <p><%=rating.user.email %> : <%=rating.star %></p>
 
     <% end %>

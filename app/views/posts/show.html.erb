@@ -2,11 +2,11 @@
   <div class="col-4">
 <p>
   <strong>Name:</strong>
-  <%= @posts.name %>
+  <%= @post.name %>
 </p>
 <p>
   <strong>Description:</strong>
-  <%= @posts.description %>
+  <%= @post.description %>
 <p><%= render 'ratings/form' %></p>
 </p>
     <% if @tags.size > 0 %>
@@ -29,16 +29,21 @@
     <h3>Ratings Average</h3>
     </p>
 <p>
-  <%= "#{@avg} Out of 5" unless @posts.ratings.count<1 %><br>
+  <%if @post.ratings.count>0%>
+    <%= "#{@post.average_rating.round(1)}  out of 5" %>
+    <%else %>
+    <%='Not Yet Rated' %>
+    <%end %>
+</p>
 </div>
   <div class="col-2">
     <p><h3>Comments count</h3></p>
-      <%= @posts.comments_count%>
+      <%= @post.comments_count%>
   </div>
   <div class="col-2">
-    <% if @posts.avatar.attached? %>
+    <% if @post.avatar.attached? %>
     <p><h3>Image</h3></p>
-    <p><%=image_tag(@posts.avatar,size: '75x75') %></p>
+    <p><%=image_tag(@post.avatar,size: '75x75') %></p>
       <%end %>
   </div>
 </div>
@@ -52,7 +57,7 @@
 
 <script>
     Rails.ajax({
-        url: "/posts/<%=@posts.id %>/readstatus",
+        url: "/posts/<%=@post.id %>/read_status",
         type: "POST",
     });
 </script>

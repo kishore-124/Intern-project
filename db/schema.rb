@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_17_070642) do
+ActiveRecord::Schema.define(version: 2020_02_18_160243) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -52,17 +52,23 @@ ActiveRecord::Schema.define(version: 2020_02_17_070642) do
   create_table "posts", force: :cascade do |t|
     t.string "name"
     t.string "description"
+    t.integer "topic_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "topic_id"
     t.integer "user_id"
     t.integer "comments_count"
+    t.float "average_rating"
     t.index ["topic_id"], name: "index_posts_on_topic_id"
   end
 
   create_table "posts_tags", id: false, force: :cascade do |t|
     t.integer "post_id", null: false
     t.integer "tag_id", null: false
+  end
+
+  create_table "posts_users", id: false, force: :cascade do |t|
+    t.integer "post_id", null: false
+    t.integer "user_id", null: false
   end
 
   create_table "posts_users_read_status", id: false, force: :cascade do |t|
@@ -88,6 +94,20 @@ ActiveRecord::Schema.define(version: 2020_02_17_070642) do
     t.string "title"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "user_comment_rating", force: :cascade do |t|
+    t.integer "star"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "user_comment_ratings", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "star"
+    t.integer "user_id"
+    t.integer "comment_id"
   end
 
   create_table "usercomments", force: :cascade do |t|
