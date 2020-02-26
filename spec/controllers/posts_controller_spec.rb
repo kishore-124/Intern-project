@@ -278,7 +278,7 @@ RSpec.describe PostsController, type: :controller do
       topic = Topic.create(title: 'Anything', user_id: user.id)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
-      comment = post.comments.create(comment: 'kk', user_id: user.id)
+      comment = post.comments.create!(comment: 'kk', user_id: user.id)
       expect do
         delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id }
       end.to change { post.comments.count }.by(-1)
