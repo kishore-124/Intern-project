@@ -36,6 +36,7 @@ gem 'jbuilder', '~> 2.5'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 group :development, :test do
+  gem 'bullet'
   gem 'rspec-rails'
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
@@ -43,7 +44,6 @@ end
 
 group :development do
   # Access an interactive console on exception pages or by calling 'console' anywhere in the code.
-  gem 'bullet'
   gem "letter_opener"
   gem 'web-console', '>= 3.3.0'
 end
@@ -70,3 +70,7 @@ gem 'devise'
 gem 'pagy'
 gem 'simple_form'
 gem 'strong_migrations'
+
+gem 'sidekiq', '~> 4.1'
+
+gem 'devise-async'
