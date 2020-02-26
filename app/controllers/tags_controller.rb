@@ -13,8 +13,7 @@ class TagsController < ApplicationController
 
   # GET /tags/1
   # GET /tags/1.json
-  def show;
-  end
+  def show; end
 
   # GET /tags/new
   def new
@@ -22,8 +21,7 @@ class TagsController < ApplicationController
   end
 
   # GET /tags/1/edit
-  def edit;
-  end
+  def edit; end
 
   # POST /tags
   # POST /tags.json

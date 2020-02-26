@@ -18,9 +18,9 @@ class PostsController < ApplicationController
       if params[:search]
         @pagy, @posts = pagy(Post.date_filter(@start_date, @end_date).where('name LIKE ?', "%#{params[:search]}%"), items: 10)
       else
-      @pagy, @posts = pagy(Post.date_filter(@start_date, @end_date).all, items: 10)
+        @pagy, @posts = pagy(Post.date_filter(@start_date, @end_date).all, items: 10)
       end
-      end
+    end
   end
 
   def edit; end

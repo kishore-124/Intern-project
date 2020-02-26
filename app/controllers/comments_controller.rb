@@ -27,7 +27,8 @@ class CommentsController < ApplicationController
     flash[:notice] = 'Comment was successfully destroyed'
   end
 
-  def edit; end
+  def edit;
+  end
 
   def show
     @user_comment_rating = UserCommentRating.new
