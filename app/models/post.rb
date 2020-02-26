@@ -15,9 +15,9 @@ class Post < ApplicationRecord
   def avatar_image
     errors.add(:avatar, "can't be blank") unless avatar.attached?
     if avatar.attached?
-    if avatar.byte_size > 2_000_000.bytes
-      errors.add(:avatar, 'should be less than 2 mb')
-    end
+      if avatar.byte_size > 2_000_000.bytes
+        errors.add(:avatar, 'should be less than 2 mb')
+      end
     end
   end
 

@@ -5,7 +5,7 @@ class Ability
 
   def initialize(user)
     if user.present?
-      can :manage, [Post, Comment], user_id: user.id
+      can :manage, [Topic, Post, Comment], user_id: user.id
       can :read, :all
     end
     # The first argument to `can` is the action you are giving the user
