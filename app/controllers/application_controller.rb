@@ -2,6 +2,10 @@
 
 # ApplicationController
 class ApplicationController < ActionController::Base
+  rescue_from CanCan::AccessDenied do |exception|
+ redirect_to root_path
+ flash[:notice] = exception.message
+ end
   include Pagy::Backend
   protect_from_forgery with: :exception
   before_action :authenticate_user!
@@ -13,7 +17,7 @@ class ApplicationController < ActionController::Base
   def configure_permitted_parameters
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[name
                                                          email
-                                                         password
-                                                         password_conformation])
+                                                        password
+                                                         password_confirmation])
   end
 end

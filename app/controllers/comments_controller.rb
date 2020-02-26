@@ -22,13 +22,12 @@ class CommentsController < ApplicationController
   end
 
   def destroy
-    @comment.destroy!
+    @comment.destroy
     redirect_to topic_post_path(@post.topic_id, @post)
     flash[:notice] = 'Comment was successfully destroyed'
   end
 
-  def edit;
-  end
+  def edit; end
 
   def show
     @user_comment_rating = UserCommentRating.new
@@ -60,8 +59,6 @@ class CommentsController < ApplicationController
   end
 
   private
-
-
 
   def load_comment
     @comment = @post.comments.find(params[:id] || params[:comment_id])

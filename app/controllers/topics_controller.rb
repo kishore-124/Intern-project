@@ -5,6 +5,7 @@
 class TopicsController < ApplicationController
 
   before_action :set_topic, only: %i[show edit update destroy]
+  authorize_resource only: %i[edit update show destroy]
   rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
   def index
@@ -25,6 +26,7 @@ class TopicsController < ApplicationController
 
   def create
     @topic = Topic.new(topic_params)
+    @topic.user_id = current_user.id
     respond_to do |format|
       if @topic.save
         format.html { redirect_to @topic, notice: 'Topic was successfully created.' }

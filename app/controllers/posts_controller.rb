@@ -15,12 +15,15 @@ class PostsController < ApplicationController
       @topic = Topic.find(params[:topic_id])
       @pagy, @posts = pagy(@topic.posts.date_filter(@start_date, @end_date).includes(:user).all, items: 10)
     else
-      @pagy, @posts = pagy(Post.date_filter(@start_date, @end_date).includes(:topic, :user).all, items: 10)
-    end
+      if params[:search]
+        @pagy, @posts = pagy(Post.date_filter(@start_date, @end_date).where('name LIKE ?', "%#{params[:search]}%"), items: 10)
+      else
+      @pagy, @posts = pagy(Post.date_filter(@start_date, @end_date).all, items: 10)
+      end
+      end
   end
 
-  def edit;
-  end
+  def edit; end
 
   def show
     @comment = Comment.new
