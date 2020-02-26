@@ -8,11 +8,13 @@ Devise.setup do |config|
   # confirmation, reset password and unlock tokens in the database.
   # Devise will use the `secret_key_base` as its `secret_key`
   # by default. You can change it below and use your own secret key.
-  # config.secret_key = 'c083e8b6fc2f00047c113230b23d0740cb4b8c9c3014b78c4eabc480fe4a81ac214113342fbacd2e93212fd042a838919fd05720a02b646dc131b678ab116ff0'
+  # config.secret_key = '91176a5159b36bc9b553a07cc40fc924ddaf0eeac8910a9eac6a98ddc04215ed79335f627d07b6b12e2c0e41b25d57a7a67649a905d24e6413039ac76b94a6ce'
+
 
   # ==> Controller configuration
   # Configure the parent class to the devise controllers.
   # config.parent_controller = 'DeviseController'
+
   # ==> Mailer Configuration
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
@@ -39,7 +41,7 @@ Devise.setup do |config|
   # session. If you need permissions, you should implement that in a before filter.
   # You can also supply a hash where the value is a boolean determining whether
   # or not authentication should be aborted when the value is not present.
-  # config.authentication_keys = [:email]
+   config.authentication_keys = [:email]
 
   # Configure parameters from the request object used for authentication. Each entry
   # given should be a request method and it will automatically be passed to the
@@ -113,7 +115,7 @@ Devise.setup do |config|
   config.stretches = Rails.env.test? ? 1 : 11
 
   # Set up a pepper to generate the hashed password.
-  # config.pepper = 'a477108519fed6dcac164201631e5d1896255ae3a4f398ec06746e4a7b06954f409cd80e09209b8ced17486f16820c8c8ab4beea2ea010e539fc02a43b8aea91'
+  # config.pepper = 'd31e2c7b6dcd9824a76bb5c54ca6323cf0c97ce2997a3b9d295489e2592dc96534a5581e27abce135da04886a6cc2b6a8d34c632fee9c2bc81eb33f15e6f7dd7'
 
   # Send a notification to the original email when the user's email is changed.
   # config.send_email_changed_notification = false
@@ -144,7 +146,7 @@ Devise.setup do |config|
   # initial account confirmation) to be applied. Requires additional unconfirmed_email
   # db field (see migrations). Until confirmed, new email is stored in
   # unconfirmed_email column, and copied to email column on successful confirmation.
-  config.reconfirmable = false
+  config.reconfirmable = true
 
   # Defines which key will be used when confirming an account
   # config.confirmation_keys = [:email]

@@ -6,9 +6,10 @@ RSpec.describe CommentsController, type: :controller do
     render_views
     before do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      topic = Topic.create(title: 'Anything')
+      topic = Topic.create(title: 'Anything',user_id:user.id)
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create!( comment: 'kk', user_id: user.id)
       get :show, params: { post_id: post.id, topic_id: topic.id, id: comment.id }
@@ -22,8 +23,9 @@ RSpec.describe CommentsController, type: :controller do
     end
     it 'returns the value of the instance' do
       user = User.create!(email: 'kishore@mallow-tech1.com', password: '9047446861')
+      user.confirm
       sign_in(user)
-      topic = Topic.create(title: 'anything')
+      topic = Topic.create(title: 'anything',user_id:user.id)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       post = topic.posts.create!(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create( comment: 'kk', user_id: user.id)
@@ -39,8 +41,9 @@ RSpec.describe CommentsController, type: :controller do
     render_views
     before do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
-      topic = Topic.create(title: 'Anything')
+      topic = Topic.create(title: 'Anything',user_id:user.id)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create( comment: 'kk', user_id: user.id)
@@ -63,8 +66,9 @@ RSpec.describe CommentsController, type: :controller do
     context 'positive cases' do
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
         sign_in(user)
-        topic = Topic.create(title: 'Anything')
+        topic = Topic.create(title: 'Anything',user_id:user.id)
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
         postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
         post :create, params: { comment: { comment: 'kk', user_id: user.id }, topic_id: topic.id, post_id: postq.id }
@@ -78,6 +82,7 @@ RSpec.describe CommentsController, type: :controller do
       it 'returns a redirect path' do
         expect(response).to redirect_to("/topics/#{assigns(:topic).id}/posts/#{assigns(:posts).id}")
       end
+
       it 'Notifies a flash save' do
         expect(flash[:notice]).to eq('comment was successfully created')
       end
@@ -86,8 +91,9 @@ RSpec.describe CommentsController, type: :controller do
       context 'not rendered views' do
         before do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          user.confirm
           sign_in(user)
-          topic = Topic.create(title: 'Anything')
+          topic = Topic.create(title: 'Anything',user_id:user.id)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           post :create, params: { comment: { comment: '', user_id: user.id }, topic_id: topic.id, post_id: postq.id }
@@ -103,10 +109,11 @@ RSpec.describe CommentsController, type: :controller do
         render_views
         before do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          user.confirm
           sign_in(user)
-          topic = Topic.create(title: 'Anything')
+          topic = Topic.create(title: 'Anything',user_id:user.id)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-          postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+          postq = topic.posts.create!(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           post :create, params: { comment: {  comment: '', user_id: user.id }, topic_id: topic.id, post_id: postq.id }
         end
         it 'returns a error message' do
@@ -127,8 +134,9 @@ RSpec.describe CommentsController, type: :controller do
       context 'positive  cases' do
         before do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          user.confirm
           sign_in(user)
-          topic = Topic.create(title: 'Anything')
+          topic = Topic.create(title: 'Anything',user_id:user.id)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -144,7 +152,7 @@ RSpec.describe CommentsController, type: :controller do
           expect(flash[:notice]).to eq('comment was successfully updated')
         end
         it 'returns a redirect path' do
-          expect(response).to redirect_to("/topics/#{assigns(:topic).id}/posts/#{assigns(:posts).id}")
+          expect(response).to redirect_to("/topics/#{assigns(:topic).id}/posts/#{assigns(:post).id}")
         end
 
       end
@@ -153,8 +161,9 @@ RSpec.describe CommentsController, type: :controller do
       context 'Not rendered views' do
         before do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          user.confirm
           sign_in(user)
-          topic = Topic.create(title: 'anything')
+          topic = Topic.create(title: 'anything',user_id:user.id)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -171,8 +180,9 @@ RSpec.describe CommentsController, type: :controller do
         render_views
         before do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          user.confirm
           sign_in(user)
-          topic = Topic.create(title: 'anything')
+          topic = Topic.create(title: 'anything',user_id:user.id)
           file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
           post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
           comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -192,8 +202,9 @@ RSpec.describe CommentsController, type: :controller do
     context 'PUT #update' do
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
         sign_in(user)
-        topic = Topic.create(title: 'Anything')
+        topic = Topic.create(title: 'Anything',user_id:user.id)
         file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
         post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
         comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -210,8 +221,9 @@ RSpec.describe CommentsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested posts' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
-      topic = Topic.create(title: 'Anything')
+      topic = Topic.create(title: 'Anything',user_id:user.id)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -219,23 +231,12 @@ RSpec.describe CommentsController, type: :controller do
         delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id }
       }.to change{Comment.count}.by(-1)
     end
-    it "raises an authorization error" do
-      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
-      sign_in(user)
-      user1 = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
-      sign_in(user1)
-      topic = Topic.create(title: 'Anything')
-      file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
-      comment = post.comments.create(comment: 'kk', user_id: user.id)
-      expect {
-        delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id, user_id: user1.id }
-      }.to raise_error(CanCan::AccessDenied)
-    end
+
     it 'notifies the flash message' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
-      topic = Topic.create(title: 'anything')
+      topic = Topic.create(title: 'anything',user_id:user.id)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -247,8 +248,9 @@ RSpec.describe CommentsController, type: :controller do
     end
     it 'returns a redirect path' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
-      topic = Topic.create(title: 'Anything')
+      topic = Topic.create(title: 'Anything',user_id:user.id)
       file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
       post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
       comment = post.comments.create(comment: 'kk', user_id: user.id)
@@ -256,22 +258,53 @@ RSpec.describe CommentsController, type: :controller do
       expect(response).to redirect_to(topic_post_path(id: post.id))
     end
   end
-  describe 'PATCH#update' do
-
-    it 'raises an authorization error' do
-      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
-      sign_in(user)
-      user1 = User.create(email: 'kishore@mallow-tech2.com', password: '9047446861')
-      sign_in(user1)
-      topic = Topic.create(title: 'Anything')
-      file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
-      post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
-      comment = post.comments.create(comment: 'kk', user_id: user.id)
-      expect {
-        patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: 'kkk', user_id: user.id}, user_id: user1.id }
-      }.to raise_error(CanCan::AccessDenied)
+  describe 'Can Can User authorization' do
+    context 'PATCH #update' do
+      before do
+        user = User.create(email: 'kishore@mallow-tech11.com', password: '9047446861')
+        user.confirm
+        sign_in(user)
+        topic = Topic.create(title: 'Anything',user_id:user.id)
+        file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+        post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+        comment = post.comments.create(comment: 'kk', user_id: user.id)
+        sign_out(user)
+        user1 = User.create(email: 'kishore@mallow-tech12.com', password: '9047446861')
+        user1.confirm
+        sign_in(user1)
+        patch :update, params: { id: comment.id, post_id: post.id, topic_id: topic.id, comment: { comment: 'kkk',user_id:user.id},user_id:user1.id }
+      end
+      it 'Notifies with a flash' do
+        expect(flash[:notice]).to eq('You are not authorized to access this page.')
+      end
+      it 'returns a redirect path' do
+        expect(response).to redirect_to(root_path)
+      end
     end
-  end
+    context 'DELETE #destroy' do
+      before do
+
+          user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
+          user.confirm
+          sign_in(user)
+          topic = Topic.create(title: 'Anything', user_id: user.id)
+          user1 = User.create(email: 'kishore@mallow-tech2.com', password: '9047446861')
+          user1.confirm
+          sign_in(user1)
+          file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+          post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+          comment = post.comments.create(comment: 'kk', user_id: user.id)
+          delete :destroy, params: { id: comment.id, topic_id: topic.id, post_id: post.id ,user_id:user1.id}
+      end
+      it 'Notifies with a flash' do
+        expect(flash[:notice]).to eq('You are not authorized to access this page.')
+      end
+      it 'returns a redirect path' do
+        expect(response).to redirect_to(root_path)
+      end
+    end
+    end
+
 
 end
 

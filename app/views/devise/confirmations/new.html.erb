@@ -1,19 +1,16 @@
-
+<p>
 <h2>Resend confirmation instructions</h2>
 
 <%= bootstrap_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: { method: :post }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
 
-
-  <div class="form-inputs">
-    <%= f.text_field :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
+  <div class="field">
+    <%= f.email_field :email, autofocus: true, autocomplete: "email", value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email) %>
   </div>
 
-  <div class="form-actions">
-    <%= f.submit "Send" %>
+  <div class="actions">
+    <%= f.submit "Resend confirmation instructions" %>
   </div>
 <% end %>
-
+</p>
 

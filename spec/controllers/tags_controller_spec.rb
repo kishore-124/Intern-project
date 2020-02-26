@@ -3,6 +3,7 @@ RSpec.describe TagsController, type: :controller do
   describe 'GET #index' do
     before do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       get :index
     end
@@ -32,8 +33,9 @@ RSpec.describe TagsController, type: :controller do
     render_views
     before do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
-      tag = Tag.create(name: 'Anything')
+      tag = Tag.create!(name: 'Anything')
       get :show, params: { id: tag.to_param }
     end
     it 'returns a content type' do
@@ -56,6 +58,7 @@ RSpec.describe TagsController, type: :controller do
     render_views
     before do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       get :new
     end
@@ -75,6 +78,7 @@ RSpec.describe TagsController, type: :controller do
     render_views
     before do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       tag = Tag.create(name: 'Anything')
       get :edit, params: { id: tag.to_param }
@@ -94,6 +98,7 @@ RSpec.describe TagsController, type: :controller do
     context 'positive cases' do
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
         sign_in(user)
         post :create, params: { tag: { name: 'Anything' } }
       end
@@ -120,6 +125,7 @@ RSpec.describe TagsController, type: :controller do
       render_views
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
         sign_in(user)
         post :create, params: { tag: { name: '' } }
       end
@@ -145,6 +151,7 @@ RSpec.describe TagsController, type: :controller do
       context 'positive  cases' do
         before do
           user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+          user.confirm
           sign_in(user)
           tag = Tag.create(name: 'Anythings')
           patch :update, params: { id: tag.to_param, tag: { name: 'value' } }
@@ -167,6 +174,7 @@ RSpec.describe TagsController, type: :controller do
       render_views
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
         sign_in(user)
         tag = Tag.create(name: 'Anything')
         patch :update, params: { id: tag.to_param, tag: { name: '' } }
@@ -190,6 +198,7 @@ RSpec.describe TagsController, type: :controller do
     context 'PUT #update' do
       before do
         user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
         sign_in(user)
         tag = Tag.create(name: 'Anything')
         put :update, params: { id: tag.to_param, tag: { name: 'Anything' } }
@@ -208,6 +217,7 @@ RSpec.describe TagsController, type: :controller do
   describe 'DELETE #destroy' do
     it 'destroys the requested topic' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       tag = Tag.create(name: 'Anything')
       expect {
@@ -216,6 +226,7 @@ RSpec.describe TagsController, type: :controller do
     end
     it 'notifies the flash message' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       tag = Tag.create(name: 'Anything')
       delete :destroy, params: { id: tag.to_param }
@@ -226,6 +237,7 @@ RSpec.describe TagsController, type: :controller do
     end
     it 'returns a redirect path' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       tag = Tag.create(name: 'Anything')
       delete :destroy, params: { id: tag.to_param }
@@ -233,6 +245,7 @@ RSpec.describe TagsController, type: :controller do
     end
     it 'returns a ActiveRecord::RecordNotFound and redirect path' do
       user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
       sign_in(user)
       delete :destroy, params: { id: -1 }
       expect(flash[:notice]).to eq('Record not found.')

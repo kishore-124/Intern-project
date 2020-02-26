@@ -2,6 +2,14 @@
 <% if @posts.count == 0 %>
   <h3>No posts</h3>
 <% else %>
+
+  <%unless params[:topic_id] %>
+  <%= form_tag(posts_url, method: 'get') do %>
+    <%= text_field_tag(:search, params[:search]) %>
+    <%= submit_tag("Search", name: nil) %>
+    <%end %>
+    <%end %>
+
   <%if params[:topic_id] %>
     <%=form_tag topic_posts_path, method: :get do %>From:
       <%=date_field_tag :start_date, Date.yesterday %>

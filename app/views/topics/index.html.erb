@@ -2,6 +2,7 @@
 <table class="table table-striped table-dark">
   <thead>
     <tr>
+      <th>Email</th>
       <th>Title</th>
       <th>Edit</th>
       <th>Delete</th>
@@ -10,9 +11,14 @@
   <tbody>
     <% @topics.each do |topic| %>
       <tr >
+        <td><%=topic.user.email %></td>
         <td ><%= link_to  topic.title, topic %></td>
-        <td  ><%= link_to 'Edit', edit_topic_path(topic) ,class:"btn btn-primary" %></td>
+        <% if can? :update, topic %>
+        <td ><%= link_to 'Edit', edit_topic_path(topic) ,class:"btn btn-primary" %></td>
+          <%end %>
+          <% if can? :destroy, topic %>
         <td  ><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-primary"%></td>
+          <%end %>
       </tr>
     <% end %>
   </tbody>

@@ -1,3 +1,4 @@
+<div class="partialform">
 <%= bootstrap_form_with(model: [@topic, @post], remote: true) do |form| %>
   <% if @post.errors.any? %>
     <div id="alert alert-danger error_explanation"  class="alert alert-danger" role="alert">
@@ -37,5 +38,5 @@
       </p>
     <% end %>
     <%= form.submit %>
-
 <% end %>
+</div>

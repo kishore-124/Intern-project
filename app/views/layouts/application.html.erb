@@ -37,19 +37,51 @@
         </li>
       </ul>
     <ol class="navbar-nav ml-auto">
-      <li class="nav-item">
+      <% if user_signed_in? %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+          <%= current_user.email %>
+        </a>
 
-          <%=link_to 'edit', edit_user_registration_path,class:"btn btn-dark" %>
-
-        <%=link_to 'logout', destroy_user_session_path, method: :delete,class:"btn btn-dark" %>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" > <%=link_to 'edit', edit_user_registration_path,remote:true %></a>
+          <a class="dropdown-item" >  <%=link_to 'logout', destroy_user_session_path, method: :delete %></a>
+        </div>
       </li>
+      <% end %>
     </ol>
   </nav>
-    <% if flash.notice.present? %>
+
+  <%if alert.present? %>
+    <div class="alert alert-danger" role="alert">
+     <%= alert %></p>
+    </div>
+<%end %>
+  <% if flash.notice.present? %>
       <div class="alert alert-success" role="alert">
-        <p id="notice"><%= notice %></p>
+       <%= notice %></p>
       </div>
+
+
     <%end %>
+    <div class="modal fade" id="editModal" >
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Edit User</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <%= yield %>
   </body>
 </html>

@@ -1,5 +1,6 @@
 <% if @post.save %>
 alert("Post Created");
+window.location.reload();
 <% else %>
 <%@post.errors.full_messages.each do |message| %>
 alert("<%=message %>")
