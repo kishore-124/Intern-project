@@ -71,6 +71,8 @@ gem 'pagy'
 gem 'simple_form'
 gem 'strong_migrations'
 
-gem 'sidekiq', '~> 4.1'
+gem 'sidekiq', '~> 3.5'
 
+gem 'fakeredis'
 gem 'devise-async'
+gem 'delayed_job_active_record'

@@ -53,13 +53,8 @@ RSpec.describe TopicsController, type: :controller do
         sign_in(user)
         get :index, params: {user_id: user.id}
       end
-
       it 'returns a success response' do
         expect(response).to have_http_status(:success)
-      end
-      it "JSON body response contains expected recipe attributes" do
-        json_response = JSON.parse(response.body)
-        expect(hash_body.keys).to match_array([:id, :title])
       end
       it 'returns a rendered template format' do
         expect(response.content_type).to eq 'application/json'
@@ -172,7 +167,7 @@ RSpec.describe TopicsController, type: :controller do
         expect(response.status).to eq(302)
       end
       it 'returns a redirect path' do
-        expect(response).to redirect_to(topic_path(id: 1))
+        expect(response).to redirect_to("/topics/#{assigns(:topic).id}")
       end
       it 'returns a change the topic count' do
         expect {
@@ -224,7 +219,7 @@ RSpec.describe TopicsController, type: :controller do
           expect(flash[:notice]).to eq('Topic was successfully updated.')
         end
         it 'returns a redirect path' do
-          expect(response).to redirect_to(topic_path(id: 1))
+          expect(response).to redirect_to("/topics/#{assigns(:topic).id}")
         end
       end
     end
@@ -259,7 +254,7 @@ RSpec.describe TopicsController, type: :controller do
         expect(response.status).to eq (302)
       end
       it 'returns a redirect path' do
-        expect(response).to redirect_to(topic_path(id: 1))
+        expect(response).to redirect_to("/topics/#{assigns(:topic).id}")
       end
       it 'Notifies a flash save' do
         expect(flash[:notice]).to eq('Topic was successfully updated.')

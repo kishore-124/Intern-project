@@ -305,6 +305,47 @@ RSpec.describe CommentsController, type: :controller do
     end
     end
 
+  describe 'POST #user_comment_rating' do
+    context "positive cases" do
+    render_views
+    before do
+      user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+      user.confirm
+      sign_in(user)
+      file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+      topic = Topic.create(title: 'Anything',user_id:user.id)
+      postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+      comment = postq.comments.create( comment: 'kkkk', user_id: user.id)
+      post :user_comment_rating, params: { user_comment_rating: { star: 1 }, topic_id: postq.topic_id,post_id: postq.id ,comment_id:comment.id}
+    end
+    it 'returns a content type' do
+      expect(response.content_type).to eq 'text/html'
+    end
+    it 'returns a redirect status' do
+      expect(response.status).to eq(302)
+    end
+    it 'Notifies a flash save' do
+      expect(flash[:notice]).to eq('Rating added successfully')
+    end
+    end
+    context 'Negative cases' do
+      render_views
+      before do
+        user = User.create(email: 'kishore@mallow-tech.com', password: '9047446861')
+        user.confirm
+        sign_in(user)
+        file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+        topic = Topic.create(title: 'Anything',user_id:user.id)
+        postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+        comment = postq.comments.create( comment: 'kkkk', user_id: user.id)
+       comment.user_comment_ratings.create(star: 1,user_id:user.id)
+        post :user_comment_rating, params: { user_comment_rating: { star: 2 }, topic_id: postq.topic_id,post_id: postq.id ,comment_id:comment.id}
+      end
+      it 'returns a content type' do
+        expect(flash[:notice]).to eq('user already given rating')
+      end
+    end
+  end
 
 end
 
