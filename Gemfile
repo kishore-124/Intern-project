@@ -74,5 +74,5 @@ gem 'strong_migrations'
 gem 'sidekiq', '~> 3.5'
 
 gem 'fakeredis'
-gem 'devise-async'
+
 gem 'delayed_job_active_record'

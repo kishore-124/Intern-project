@@ -1,7 +1,9 @@
 class Topic < ApplicationRecord
+  #========================================== Relationships ====================
   has_many :posts, dependent: :destroy
-  validates :title, presence: true, length: {maximum: 20}
   belongs_to :user
+  #========================================== Validations ======================
+  validates :title, presence: true, length: { maximum: 20 }
 end
 
 

@@ -54,7 +54,7 @@ Rails.application.configure do
   # Use the lowest log level to ensure availability of diagnostic information
   # when problems arise.
   config.log_level = :debug
-  config.action_mailer.default_url_options = { host: 'localhost', port: 3000 ||'sheltered-dawn-91151.herokuapp.com'}
+  config.action_mailer.default_url_options = { host: 'kishore-mallow1.herokuapp.com'}
   # Prepend all log lines with the following tags.
   config.log_tags = [ :request_id ]
 

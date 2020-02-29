@@ -9,7 +9,11 @@ class ApplicationController < ActionController::Base
   include Pagy::Backend
   protect_from_forgery with: :exception
   before_action :authenticate_user!
+  rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
+  def not_found
+   redirect_to  root_url, notice: 'Record not found.'
+  end
   before_action :configure_permitted_parameters, if: :devise_controller?
 
   protected

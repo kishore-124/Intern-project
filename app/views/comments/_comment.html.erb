@@ -1,5 +1,5 @@
 <h1>Comments</h1>
-<% if @post.comments.count == 0 %>
+<% if @post.comments.size == 0 %>
   <h3>No Comments</h3>
 <% else %>
   <table class="table table-striped table-dark">
@@ -10,6 +10,7 @@
       <th>Delete</th>
     </tr>
     <% @post.comments.each do |comment| %>
+      <% if comment.persisted? %>
       <tr>
         <td><%=comment.user.email %></td>
         <td><%= link_to comment.comment  , topic_post_comment_path(@post.topic, @post,comment) %></td>
@@ -19,10 +20,11 @@
         <% if can? :destroy, comment %>
         <td><%= link_to 'Destroy', topic_post_comment_path(@post.topic,@post,comment),
                         method: :delete,
-                        data: {confirm: 'Are you sure?'}, class:"btn btn-primary" %></td>
+                        data: {confirm: 'Are you sure?'}, class:"btn btn-danger" %></td>
 
           <%end %>
       </tr>
+      <% end %>
     <% end %>
   </table>
 <% end %>

@@ -249,7 +249,7 @@ RSpec.describe TagsController, type: :controller do
       sign_in(user)
       delete :destroy, params: { id: -1 }
       expect(flash[:notice]).to eq('Record not found.')
-      expect(response).to redirect_to(tags_path)
+      expect(response).to redirect_to(root_url)
     end
   end
 end

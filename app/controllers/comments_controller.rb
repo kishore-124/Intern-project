@@ -6,7 +6,7 @@ class CommentsController < ApplicationController
   before_action :load_comment, only: %i[show edit update user_comment_rating destroy]
   before_action :load_tags, only: %i[create update]
   authorize_resource only: %i[edit update show destroy]
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
 
   def create
     @ratings = @post.ratings.group(:ratings).count
@@ -27,13 +27,12 @@ class CommentsController < ApplicationController
     flash[:notice] = 'Comment was successfully destroyed'
   end
 
-  def edit;
-  end
+  def edit; end
 
   def show
-    @user_comment_rating = UserCommentRating.new
     @tags = Tag.new
     @user_comment_ratings = @comment.user_comment_ratings.all
+    @comments = @post.comments.all
   end
 
   def update
@@ -49,14 +48,14 @@ class CommentsController < ApplicationController
 
   def user_comment_rating
     @user_comment_rating = @comment.user_comment_ratings.new(load_user_comment)
-    if @user_comment_rating.update(user_id: current_user.id)
-      flash[:notice] = 'Rating added successfully'
+    if @comment.user_comment_ratings.where(user_id:current_user.id).present?
+      flash[:alert] = 'user already given rating'
       redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
     else
-      flash[:notice] = 'user already given rating'
+      @user_comment_rating.update(user_id: current_user.id)
+      flash[:notice] = 'Rating added successfully'
       redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
     end
-
   end
 
   private
@@ -81,7 +80,5 @@ class CommentsController < ApplicationController
     params.require(:comment).permit(:comment)
   end
 
-  def not_found
-    redirect_to topic_post_path(@post.topic_id, @post), notice: 'Record not found.'
-  end
+
 end

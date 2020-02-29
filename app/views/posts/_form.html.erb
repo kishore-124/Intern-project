@@ -1,5 +1,6 @@
 <div class="partialform">
-<%= bootstrap_form_with(model: [@topic, @post], remote: true) do |form| %>
+
+<%= form_with(model: [@topic, @post], remote: true) do |form| %>
   <% if @post.errors.any? %>
     <div id="alert alert-danger error_explanation"  class="alert alert-danger" role="alert">
       <h2><%= pluralize(@post.errors.count, "error") %> prohibited this posts from being saved:</h2>
@@ -12,31 +13,32 @@
     <%end %>
   <div class="form-group ">
   <p>
+    <%= form.label :name %>
     <%= form.text_field :name,class: "form-control", placeholder:"Please enter a valid Name" %>
   </p>
   </div>
   <div class="form-group ">
   <p>
+    <%= form.label :description %>
     <%= form.text_area :description ,class: "form-control", placeholder:"Please enter a valid Description"%>
   </p>
     </div>
   <h3>Choose File</h3>
   </p>
-  <%= form.file_field :avatar %>
+    <div class="form-group ">
+      <%= form.label :avatar %>
+  <%= form.file_field :avatar,class:"form-control" %>
+    </div>
   <p>
   <h3>Creat Tag</h3>
 <p>
 
    <%=form.fields_for :tags, @post.tags.build do |t| %>
-    <%=t.text_field :name%>
+    <%= t.label :name %>
+    <%=t.text_field :name,class:"form-control"%>
       <%end %>
     <%= form.label :Tags %><br>
-    <% @tags.each do |tag| %>
-      <%= check_box_tag "post[tag_ids][]", tag.id, @post.tags.include?(tag) %>
-      <%= tag.name %><br>
-      <p>
-      </p>
-    <% end %>
-    <%= form.submit %>
+  <%= select_tag "post[tag_ids][]", options_from_collection_for_select(Tag.all, :id, :name, @post.tags.ids), multiple: true, class: "form-control" %><br>
+    <%= form.submit  class:"btn btn-secondary"%>
 <% end %>
 </div>

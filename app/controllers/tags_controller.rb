@@ -3,7 +3,7 @@
 # TagsController
 class TagsController < ApplicationController
   before_action :set_tag, only: %i[show edit update destroy]
-  rescue_from ActiveRecord::RecordNotFound, with: :not_found
+
 
   # GET /tags
   # GET /tags.json
@@ -75,7 +75,5 @@ class TagsController < ApplicationController
     params.require(:tag).permit(:name)
   end
 
-  def not_found
-    redirect_to tags_url, notice: 'Record not found.'
-  end
+
 end

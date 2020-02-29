@@ -17,7 +17,7 @@
         <td ><%= link_to 'Edit', edit_topic_path(topic) ,class:"btn btn-primary" %></td>
           <%end %>
           <% if can? :destroy, topic %>
-        <td  ><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-primary"%></td>
+        <td  ><%= link_to 'Destroy', topic, method: :delete, data: { confirm: 'Are you sure?' } ,class:"btn btn-danger"%></td>
           <%end %>
       </tr>
     <% end %>

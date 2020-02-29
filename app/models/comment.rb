@@ -1,7 +1,9 @@
 class Comment < ApplicationRecord
+  #========================================== Relationships ====================
   belongs_to :post, counter_cache: true
-  validates :comment, presence: true
   has_many :user_comment_ratings
-  has_many :users, :through => :user_comment_ratings
+  has_many :reviewers, :through => :user_comment_ratings, :class_name => 'User'
   belongs_to :user
+  #========================================== Validations ====================
+  validates :comment, presence: true
 end

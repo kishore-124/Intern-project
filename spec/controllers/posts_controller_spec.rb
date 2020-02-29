@@ -27,6 +27,24 @@ RSpec.describe PostsController, type: :controller do
     it 'checks the pagination limit value' do
       expect(assigns(:posts).limit_value).to eq(10)
     end
+    it 'date filter' do
+      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
+      user.confirm
+      sign_in(user)
+       start_date = Date.yesterday
+       end_date = Date.today
+      1.upto(2) do
+        topic = Topic.create(title: 'Anything', user_id: user.id)
+        file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+        post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file,created_at: '2020-02-25 10:02:21.538063')
+      end
+      1.upto(3) do
+        topic = Topic.create(title: 'Anything', user_id: user.id)
+        file = fixture_file_upload(Rails.root.join('C:\Users\gopal\image8.jfif'), 'image/jpeg', :binary)
+        post = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
+      end
+      expect(assigns(:posts).date_filter(start_date,end_date).map(&:id).count).to eq(3)
+    end
     it 'Checks the Page offset correctly' do
       user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
       user.confirm
@@ -125,14 +143,11 @@ RSpec.describe PostsController, type: :controller do
         expect(flash[:notice]).to eq('Posts was successfully created.')
       end
       it 'returns avatar present and validates the byte size' do
-
         user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
         user.confirm
         topic = Topic.create(title: 'anything', user_id: user.id)
         sign_in(user)
-        p '1'
         postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id)
-        p '2'
         postq.avatar.attach(io: File.open('C:\Users\gopal\image8.jfif'), filename: 'image8.jfif', content_type: 'image/jpeg')
         expect(postq.avatar.attached?).to be_present
         expect(postq.avatar.byte_size < 2000.kilobytes).to be_truthy
@@ -167,9 +182,7 @@ RSpec.describe PostsController, type: :controller do
         end
         it 'returns a redirect status' do
           expect(response.status).to eq(302)
-
         end
-
       end
     end
     context 'negative cases' do

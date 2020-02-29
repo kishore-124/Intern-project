@@ -1,10 +1,11 @@
-<%= bootstrap_form_with(model: [@post.topic, @post, @comment,  @user_comment_rating], local: true) do |form| %>
+<%  @user_comment_rating = UserCommentRating.new %>
+<%= form_with(model: [@post.topic, @post, @comment,  @user_comment_rating], local: true) do |form| %>
   <%count=1 %>
   <%while count<=5 %>
-    <%= form.radio_button :star, count, { checked: true }  %>
+   <%= form.radio_button :star, count, { checked: true }  %><%=count %>
     <%count=count+1 %>
   <%end %>
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit class:"btn btn-secondary" %>
   </div>
 <% end %>

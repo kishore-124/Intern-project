@@ -1,17 +1,24 @@
 class Post < ApplicationRecord
-  scope :date_filter, ->(star_date, end_date) { where('DATE(created_at) >= ? AND DATE(created_at) <= ?', star_date, end_date) }
+  #========================================== Scope ============================
+  scope :date_filter, lambda { |star_date, end_date|
+    where('DATE(created_at) >= ? AND DATE(created_at) <= ?',
+          star_date,
+          end_date)
+  }
+  #========================================== Relationships ====================
   belongs_to :user
-  has_and_belongs_to_many :users, join_table: :posts_users_read_status
+  has_and_belongs_to_many :readers, class_name: 'User', join_table: :posts_users_read_status
   has_many :ratings, dependent: :destroy
   has_one_attached :avatar
   has_and_belongs_to_many :tags
   has_many :comments, dependent: :destroy
   belongs_to :topic
+  #========================================== Nested Attributes ================
   accepts_nested_attributes_for :tags, reject_if: :reject_tags
+  #========================================== Validations ======================
   validates :name, presence: true, length: {maximum: 20}
   validate :avatar_image
-  self.ignored_columns = ['rating_average']
-
+  #========================================== Methods ==========================
   def avatar_image
     errors.add(:avatar, "can't be blank") unless avatar.attached?
     if avatar.attached?

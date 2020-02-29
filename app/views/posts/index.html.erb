@@ -2,27 +2,24 @@
 <% if @posts.count == 0 %>
   <h3>No posts</h3>
 <% else %>
-
-  <%unless params[:topic_id] %>
-  <%= form_tag(posts_url, method: 'get') do %>
-    <%= text_field_tag(:search, params[:search]) %>
-    <%= submit_tag("Search", name: nil) %>
-    <%end %>
-    <%end %>
-
   <%if params[:topic_id] %>
-    <%=form_tag topic_posts_path, method: :get do %>From:
-      <%=date_field_tag :start_date, Date.yesterday %>
-      to: <%=date_field_tag :end_date, Date.today %>
-      <%=submit_tag "show"%>
+    <%=  form_tag topic_posts_path, method: :get do %>From:
+      <div class="form-group">
+      <%=date_field_tag :start_date, Date.yesterday,class:"form-control" %>
+      to: <%=date_field_tag :end_date, Date.today ,class:"form-control"%>
+      </div>
+      <%=submit_tag "show" , class:"btn btn-secondary"%>
     <%end %>
     <%else %>
-  <%=form_tag posts_path, method: :get do %>From:
-    <%=date_field_tag :start_date, Date.yesterday %>
-    to: <%=date_field_tag :end_date, Date.today %>
-    <%=submit_tag "show"%>
+  <%= form_tag posts_path, method: :get do %> <h5>From:</h5>
+      <div class="form-group">
+    <%=date_field_tag :start_date, Date.yesterday,class:"form-control" %>
+   <h5>to:</h5> <%=date_field_tag :end_date, Date.today,class:"form-control" %>
+      </div>
+    <%=submit_tag "Show" , class:"btn btn-secondary"%>
   <%end %>
     <%end %>
+  <br>
   <table class="table table-striped table-dark">
     <tr>
       <th>User</th>
@@ -37,7 +34,7 @@
         <td><%=post.user.email %></td>
         <td><%= link_to post.name, topic_post_path(post.topic_id, post) %> <%= "(#{post.topic.title})" %></td>
         <td><%= link_to post.description, topic_post_path(post.topic_id, post) %>
-        <td><%if  post.users.where(posts_users_read_status: {user_id:current_user.id,post_id:post.id}).present? %>
+        <td><%if  post.readers.where(posts_users_read_status: {user_id:current_user.id,post_id:post.id}).present? %>
             <%='Read' %>
           <%end %>
         </td>
@@ -48,7 +45,7 @@
         <% if can? :destroy, post %>
         <td><%= link_to 'Destroy', topic_post_path(post.topic_id, post),
                         method: :delete,
-                        data: {confirm: 'Are you sure?'} , class:"btn btn-primary"%></td>
+                        data: {confirm: 'Are you sure?'} , class:"btn btn-danger"%></td>
           <% end%>
       </tr>
     <% end %>
