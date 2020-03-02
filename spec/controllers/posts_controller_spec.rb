@@ -397,7 +397,6 @@ RSpec.describe PostsController, type: :controller do
         postq = topic.posts.create(name: 'post', description: 'kk', user_id: user.id, avatar: file)
         post :read_status, xhr: true, params: {id:postq.id}
       end
-
       it 'returns a status code' do
         expect(response.status).to eq(204)
       end

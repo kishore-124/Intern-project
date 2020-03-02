@@ -8,7 +8,7 @@ class User < ApplicationRecord
   has_many :user_comment_ratings
   has_many :reviewers, through: :user_comment_ratings, class_name: 'Comment'
   has_and_belongs_to_many :readers, class_name: 'Post', join_table: :posts_users_read_status
-
+  #========================================== Callbacks ===================
   after_create :invite
   #========================================== Methods ====================
   def invite

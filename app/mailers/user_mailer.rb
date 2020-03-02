@@ -1,4 +1,4 @@
-class UserMailer <ApplicationMailer
+class UserMailer < ApplicationMailer
   default from: 'kishore@mallow-tech.com'
   def invite(user)
     @user = user
