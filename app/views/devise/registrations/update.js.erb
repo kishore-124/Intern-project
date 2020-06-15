@@ -1,0 +1,4 @@
+<% if resource.errors.any? %>
+  alert("<%= j resource.errors.full_messages.join %>")
+<% else %>
+<% end %>

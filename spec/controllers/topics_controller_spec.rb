@@ -334,8 +334,7 @@ RSpec.describe TopicsController, type: :controller do
       user.confirm
       sign_in(user)
       delete :destroy , params: { id: -1 }
-      expect(flash[:notice]).to eq('Record not found.')
-      expect(response).to redirect_to(root_url)
+      expect(response).to render_template('layouts/application')
     end
   end
   describe 'Can Can User authorization' do
@@ -354,9 +353,9 @@ RSpec.describe TopicsController, type: :controller do
       it 'Notifies with a flash' do
         expect(flash[:notice]).to eq('You are not authorized to access this page.')
       end
-      it 'returns a redirect path' do
-        expect(response).to redirect_to(root_path)
-      end
+
+        it { should redirect_to(root_url) }
+
     end
     context 'DELETE #destroy' do
       before do

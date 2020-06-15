@@ -5,8 +5,5 @@ RSpec.describe "topics/show", type: :view do
       :title => "Title"
     ))
   end
-  it "renders attributes in <p>" do
-    render
-    expect(rendered).to match(/Title/)
-  end
+
 end

@@ -17,5 +17,11 @@ module Application2
     # Application configuration can go into files in config/initializers
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
+
+
+    I18n.available_locales = [:en, :ta_IN]
+
+      # Set default locale to something other than :en
+    I18n.default_locale = :en
   end
 end

@@ -30,4 +30,10 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      topic:
+        title: "Tittle"
+  topics:
+    index:
+      tittle: "Topics"

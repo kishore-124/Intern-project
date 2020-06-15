@@ -7,7 +7,7 @@ class Post < ApplicationRecord
   }
   #========================================== Relationships ====================
   belongs_to :user
-  has_and_belongs_to_many :readers, class_name: 'User', join_table: :posts_users_read_status
+  has_and_belongs_to_many :post_reader, class_name: 'User', join_table: :posts_users_read_status
   has_many :ratings, dependent: :destroy
   has_one_attached :avatar
   has_and_belongs_to_many :tags

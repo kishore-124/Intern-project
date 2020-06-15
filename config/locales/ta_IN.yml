@@ -1,0 +1,37 @@
+ta_IN:
+  activerecord:
+    attributes:
+      topic:
+        title: "தலைப்பு"
+  topics:
+    index:
+      tittle: "தலைப்புகள்"
+  devise:
+    sessions:
+      signed_in: "வெற்றிகரமாக உள்நுழைந்தது."
+      signed_out: "வெற்றிகரமாக வெளியேறியது."
+      already_signed_out: "வெற்றிகரமாக வெளியேறியது."
+    confirmations:
+      confirmed: "உங்கள் மின்னஞ்சல் முகவரி வெற்றிகரமாக உறுதிப்படுத்தப்பட்டுள்ளது."
+      send_instructions: "சில நிமிடங்களில் உங்கள் மின்னஞ்சல் முகவரியை எவ்வாறு உறுதிப்படுத்துவது என்பதற்கான வழிமுறைகளுடன் ஒரு மின்னஞ்சலைப் பெறுவீர்கள்."
+      send_paranoid_instructions: "உங்கள் மின்னஞ்சல் முகவரி எங்கள் தரவுத்தளத்தில் இருந்தால், உங்கள் மின்னஞ்சல் முகவரியை சில நிமிடங்களில் எவ்வாறு உறுதிப்படுத்துவது என்பதற்கான வழிமுறைகளைக் கொண்ட மின்னஞ்சலைப் பெறுவீர்கள்."
+    failure:
+      already_authenticated: "நீங்கள் ஏற்கனவே உள்நுழைந்துள்ளீர்கள்."
+      inactive: "உங்கள் கணக்கு இன்னும் செயல்படுத்தப்படவில்லை."
+      invalid: "தவறான அங்கீகார_கீக்கள் password அல்லது கடவுச்சொல்."
+      locked: "உங்கள் கணக்கு பூட்டப்பட்டுள்ளது."
+      last_attempt: "You have one more attempt before your account is locked."
+      not_found_in_database: "Invalid %{authentication_keys} or password."
+      timeout: "Your session expired. Please sign in again to continue."
+      unauthenticated: "தொடர்வதற்கு முன் நீங்கள் உள்நுழைய வேண்டும் அல்லது பதிவுபெற வேண்டும்."
+      unconfirmed: "தொடர்வதற்கு முன் உங்கள் மின்னஞ்சல் முகவரியை உறுதிப்படுத்த வேண்டும்."
+    errors:
+    messages:
+      already_confirmed: "ஏற்கனவே உறுதிப்படுத்தப்பட்டது, தயவுசெய்து உள்நுழைய முயற்சிக்கவும்"
+      confirmation_period_expired: "needs to be confirmed within %{period}, please request a new one"
+      expired: "காலாவதியானது, புதியதைக் கோருங்கள்"
+      not_found: "கிடைக்கவில்லை"
+      not_locked: "பூட்டப்படவில்லை"
+      not_saved:
+        one: "1 பிழை இதை தடைசெய்தது %{resource} சேமிக்கப்படுவதிலிருந்து:"
+        other: "%{count} பிழைகள் இதைத் தடைசெய்தன %{resource} சேமிக்கப்படுவதிலிருந்து:"

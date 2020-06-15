@@ -27,7 +27,8 @@ class CommentsController < ApplicationController
     flash[:notice] = 'Comment was successfully destroyed'
   end
 
-  def edit; end
+  def edit;
+  end
 
   def show
     @tags = Tag.new
@@ -48,8 +49,8 @@ class CommentsController < ApplicationController
 
   def user_comment_rating
     @user_comment_rating = @comment.user_comment_ratings.new(load_user_comment)
-    if @comment.user_comment_ratings.where(user_id:current_user.id).present?
-      flash[:alert] = 'user already given rating'
+    if @comment.user_comment_ratings.where(user_id: current_user.id).present?
+      flash[:alert] = 'User already given rating'
       redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
     else
       @user_comment_rating.update(user_id: current_user.id)

@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   root 'topics#index'
   post 'posts/:id/read_status', to: 'posts#read_status'
 
+
+
 end

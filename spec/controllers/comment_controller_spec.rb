@@ -342,7 +342,7 @@ RSpec.describe CommentsController, type: :controller do
         post :user_comment_rating, params: { user_comment_rating: { star: 2 }, topic_id: postq.topic_id,post_id: postq.id ,comment_id:comment.id}
       end
       it 'returns a content type' do
-        expect(flash[:alert]).to eq('user already given rating')
+        expect(flash[:alert]).to eq('User already given rating')
       end
     end
   end

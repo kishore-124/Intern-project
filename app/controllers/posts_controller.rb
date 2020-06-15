@@ -13,9 +13,9 @@ class PostsController < ApplicationController
     @end_date = params[:end_date].blank? ? Date.today : params[:end_date]
     if params[:topic_id]
       @topic = Topic.find(params[:topic_id])
-     @posts = @topic.posts.date_filter(@start_date, @end_date).includes(:user).all
+     @posts = @topic.posts.date_filter(@start_date, @end_date).includes(:topic,:user).all
     else
-      @posts = Post.date_filter(@start_date, @end_date).all
+      @posts = Post.date_filter(@start_date, @end_date).includes(:topic,:user).all
     end
     @pagy, @posts = pagy(@posts, items: 10)
   end
@@ -56,8 +56,8 @@ class PostsController < ApplicationController
 
   def read_status
     @post = Post.find(params[:id])
-    unless @post.readers.where(posts_users_read_status: {user_id: current_user.id, post_id: @post.id}).present?
-      @post.readers << current_user
+    unless @post.post_reader.where(posts_users_read_status: {user_id: current_user.id, post_id: @post.id}).present?
+      @post.post_reader << current_user
     end
   end
 

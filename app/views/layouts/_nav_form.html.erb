@@ -1,0 +1,56 @@
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <%= link_to "APP", root_path ,class:"nav-brand"%>
+
+  <ul class="navbar-nav mr-auto">
+    <li class="nav-item">
+  <%= link_to "Topic", topics_path,  class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Post", posts_path,  class: "nav-link" %>
+    </li>
+    <li class="nav-item">
+      <%= link_to "Tag", tags_path,  class: "nav-link"  %>
+    </li>
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         Actions
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <!--            TODO: Fix-->
+        <%= link_to "New Topic", new_topic_path,  class:"dropdown-item" %>
+        <%= link_to "New Tag", new_tag_path,  class:"dropdown-item" %>
+
+      </div>
+    </li>
+
+    <li class="nav-item dropdown">
+      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Languages
+      </a>
+      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <!--            TODO: Fix-->
+        <%= link_to_unless_current "English", locale: "en" %>
+        <%= link_to_unless_current "Tamil", locale: "ta_IN" %>
+
+      </div>
+    </li>
+
+
+  </ul>
+  <ol class="navbar-nav ml-auto">
+    <% if user_signed_in? %>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"  >
+        <%= current_user.email %>
+        </a>
+
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <%= link_to "Edit", edit_user_registration_path,  class:"dropdown-item"   ,remote:"true"%>
+          <%= link_to "logout", destroy_user_session_path,  class:"dropdown-item" ,method: :delete%>
+
+        </div>
+      </li>
+    <% end %>
+  </ol>
+</nav>
+

@@ -285,7 +285,7 @@ RSpec.describe PostsController, type: :controller do
   describe 'post comment destroy' do
 
     it 'destroys the comments posts' do
-      user = User.create(email: 'kishore@mallow-tech1.com', password: '9047446861')
+      user = User.create(email: 'kishore@mallow-tech4.com', password: '9047446861')
       user.confirm
       sign_in(user)
       topic = Topic.create(title: 'Anything', user_id: user.id)
