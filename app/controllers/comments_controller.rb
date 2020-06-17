@@ -7,7 +7,6 @@ class CommentsController < ApplicationController
   before_action :load_tags, only: %i[create update]
   authorize_resource only: %i[edit update show destroy]
 
-
   def create
     @ratings = @post.ratings.group(:ratings).count
     @rating = Rating.new
@@ -51,12 +50,11 @@ class CommentsController < ApplicationController
     @user_comment_rating = @comment.user_comment_ratings.new(load_user_comment)
     if @comment.user_comment_ratings.where(user_id: current_user.id).present?
       flash[:alert] = 'User already given rating'
-      redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
     else
       @user_comment_rating.update(user_id: current_user.id)
       flash[:notice] = 'Rating added successfully'
-      redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
     end
+    redirect_to topic_post_comment_path(@post.topic_id, @post, @comment)
   end
 
   private
@@ -80,6 +78,4 @@ class CommentsController < ApplicationController
   def comment_params
     params.require(:comment).permit(:comment)
   end
-
-
 end

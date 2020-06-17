@@ -12,7 +12,7 @@ class TopicsController < ApplicationController
   end
 
   def show
-    @post =Post.new
+    @post = Post.new
     @tags = Tag.all
   end
 
@@ -20,7 +20,8 @@ class TopicsController < ApplicationController
     @topic = Topic.new
   end
 
-  def edit; end
+  def edit;
+  end
 
   def create
     @topic = Topic.new(topic_params)
@@ -65,5 +66,4 @@ class TopicsController < ApplicationController
   def topic_params
     params.require(:topic).permit(:title)
   end
-
 end

@@ -13,14 +13,15 @@ class PostsController < ApplicationController
     @end_date = params[:end_date].blank? ? Date.today : params[:end_date]
     if params[:topic_id]
       @topic = Topic.find(params[:topic_id])
-     @posts = @topic.posts.date_filter(@start_date, @end_date).includes(:topic,:user).all
+      @posts = @topic.posts.date_filter(@start_date, @end_date).includes(:topic, :user).all
     else
-      @posts = Post.date_filter(@start_date, @end_date).includes(:topic,:user).all
+      @posts = Post.date_filter(@start_date, @end_date).includes(:topic, :user).all
     end
     @pagy, @posts = pagy(@posts, items: 10)
   end
 
-  def edit; end
+  def edit;
+  end
 
   def show
     @comment = Comment.new
@@ -34,7 +35,6 @@ class PostsController < ApplicationController
       @post = @topic.posts.new(posts_params)
       @post.user_id = current_user.id
       @post.save
-      format.html { redirect_to topic_path(@topic), notice: 'Posts was successfully created.' }
       format.js
     end
   end
@@ -82,7 +82,4 @@ class PostsController < ApplicationController
   def posts_params
     params.require(:post).permit(:name, :description, :avatar, tags_attributes: %i[id name], tag_ids: [])
   end
-
-
-
 end

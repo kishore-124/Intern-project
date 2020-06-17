@@ -3,6 +3,7 @@
 class Users::RegistrationsController < Devise::RegistrationsController
   # before_action :configure_sign_up_params, only: [:create]
   before_action :configure_account_update_params, only: [:update]
+  before_action :configure_permitted_parameters, :only => [:create]
 
   # GET /resource/sign_up
   # def new
@@ -10,9 +11,9 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # end
 
   # POST /resource
-  # def create
-  #  super
-  # end
+  def create
+    super
+  end
 
   # GET /resource/edit
   def edit
@@ -22,7 +23,7 @@ class Users::RegistrationsController < Devise::RegistrationsController
   # PUT /resource
   def update
     if resource.update_with_password(user_attributes)
-      redirect_to new_user_session_path, flash: { success: 'Password Updated successfully.' }
+      redirect_to new_user_session_path, flash: {success: 'Password Updated successfully.'}
     else
       respond_to :js
     end
@@ -45,12 +46,19 @@ class Users::RegistrationsController < Devise::RegistrationsController
   protected
 
   def user_attributes
-    params.require(:user).permit( :email, :password, :password_confirmation, :current_password)
+    params.require(:user).permit(:email, :password, :password_confirmation, :current_password)
   end
 
   # If you have extra params to permit, append them to the sanitizer.
   def configure_sign_up_params
     devise_parameter_sanitizer.permit(:sign_up, keys: [:attribute])
+  end
+
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name
+                                                         email
+                                                        password
+                                                         password_confirmation])
   end
 
   # If you have extra params to permit, append them to the sanitizer.
